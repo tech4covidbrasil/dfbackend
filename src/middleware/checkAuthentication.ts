@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-// import { decodeToken } from 'src/modules/Usuario/utils/token';
 import ApiErrors from 'src/shared/errors/ApiErrors';
 import { ErrorResponse } from 'src/shared/utils/ApiResponse';
 
