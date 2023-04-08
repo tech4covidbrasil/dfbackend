@@ -2,9 +2,9 @@
   "name": "dfbackend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ./src/server.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/tech4covidbrasil/dfbackend/issues"
   },
-  "homepage": "https://github.com/tech4covidbrasil/dfbackend#readme"
+  "homepage": "https://github.com/tech4covidbrasil/dfbackend#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
