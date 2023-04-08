@@ -6,7 +6,7 @@ app.use(express.json())
 
 app.use("/dfb", (req, res) => {
     res.status(200).json({
-        msg: "Doar Faz Bem"
+        msg: "Doar Faz Bem - NodeJS API"
     })
 })
 
