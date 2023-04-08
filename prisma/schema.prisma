@@ -2,10 +2,377 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")
 }
+
+model Usuario {
+    id                String    @id @default(uuid())
+    nome              String    @unique
+    email             String    @unique
+    senha             String
+    senhaResetToken   String?
+    senhaResetExpires DateTime?
+    tipoUsuario       String
+
+    termos      Boolean  @default(false)
+    lgpd        Boolean  @default(false)
+    isValidated Boolean? @default(false)
+
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
+
+    Foto        Foto?
+    Endereco    Endereco?
+    Documento   Documento?
+    UsuarioRole UsuarioRole?
+
+    Doacao           Doacao[]
+    Campanha         Campanha[]
+    HistoricoUsuario HistoricoUsuario[]
+    CampanhaFavorita CampanhaFavorita[]
+
+    @@map("tbUsuario")
+}
+
+model Documento {
+    id             String @id @default(uuid())
+    dataNascimento String
+    documentoValor String
+
+    usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+    usuarioId String  @unique
+
+    tipoDocumentoId String
+    tipoDocumento   TipoDocumento @relation(fields: [tipoDocumentoId], references: [id])
+
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
+
+    @@map("tbDocumento")
+}
+
+model TipoDocumento {//	RG, CPF, CNPJ, PASSAPORTE, CNH
+    id      String @id @default(uuid())
+    docNome String @unique
+
+    updated_at DateTime    @updatedAt
+    created_at DateTime    @default(now())
+    Documento  Documento[]
+
+    @@map("tbTipoDocumento")
+}
+
+model Foto {//	FOTO AVATAR
+
+    id        String @id @default(uuid())
+    foto_nome String
+    foto_path String
+
+    usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+    usuarioId String  @unique
+
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
+
+    @@map("tbFoto")
+}
+
+model Endereco {
+    id String @id @default(uuid())
+
+    ddd      String
+    telefone String @unique
+
+    cep         String
+    endereco    String
+    numero      Int
+    complemento String?
+    bairro      String
+
+	//	Definir se a cidade/estado será selecionado manualmente ou preenchido automaticamente pela api
+    cidade      String
+    estado      String
+
+    usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+    usuarioId String  @unique
+
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
+
+    @@map("tbEndereco")
+}
+
+model LandingPageLeads {
+    id            String   @id @default(uuid())
+    nome          String   @unique
+    email         String   @unique
+    telefone      String   @unique
+    cidade        String
+    estado        String
+    tipoLead      String
+    termosAceitos Boolean
+    updated_at    DateTime @updatedAt
+    created_at    DateTime @default(now())
+
+    @@map("tbLandingPage")
+}
+
+model Doacao {
+    id String @id @default(uuid())
+
+    usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+    usuarioId String  @unique
+
+    campanha   Campanha @relation(fields: [campanhaId], references: [id])
+    campanhaId String   @unique
+
+    produto   Produto @relation(fields: [produtoId], references: [id])
+    produtoId String  @unique
+
+    quantidadeDoada Int
+
+    isValidated Boolean @default(false)
+
+    updated_at            DateTime                @updatedAt
+    created_at            DateTime                @default(now())
+    ProdutoCampanhaDoacao ProdutoCampanhaDoacao[]
+
+    @@map("tbDoacao")
+}
+
+model Campanha {
+    id String @id @default(uuid())
+    nome                String
+
+	//	Vai ser utilizada nossa tabela de Cidades/Estados?
+    cidadeCampanha      String
+    estadoCampanha      String
+
+    tipoArrecadacao     String
+    descricao           String
+    dataCriacaoCampanha DateTime @default(now())
+    dataTerminoCampanha DateTime
+    isValidated         Boolean  @default(false)
+    isActive            Boolean  @default(false)
+
+    usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+    usuarioId String  @unique
+
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
+
+    Doacao           Doacao[]
+    ProdutoCampanha  ProdutoCampanhaDoacao[]
+    CampanhaFavorita CampanhaFavorita[]
+
+    @@map("tbCampanha")
+}
+
+model UnidadeMedida {
+	//	Kg, Litro, Unidade
+    id         String @id @default(uuid())
+    nome       String @unique
+    abreviacao String
+
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
+
+    ProdutoMedida ProdutoMedida[]
+
+    @@map("tbUnidadeMedida")
+}
+
+model Produto {
+    id   String @id @default(uuid())
+    nome String @unique
+
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
+
+    Doacao          Doacao[]
+    ProdutoCampanha ProdutoCampanhaDoacao[]
+    ProdutoMedida   ProdutoMedida[]
+
+    @@map("tbProduto")
+}
+
+model ProdutoCampanhaDoacao {
+    id String @id @default(uuid())
+
+    produto   Produto @relation(fields: [produtoId], references: [id])
+    produtoId String
+
+    campanha   Campanha @relation(fields: [campanhaId], references: [id])
+    campanhaId String
+
+    doacao   Doacao @relation(fields: [doacaoId], references: [id])
+    doacaoId String
+
+    quantidadeDoada Int
+
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
+
+    @@map("tbProdutoCampanhaDoacao")
+}
+
+model HistoricoUsuario {
+    id String @id @default(uuid())
+
+    usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+    usuarioId String
+
+    descricao  String
+    created_at DateTime @default(now())
+
+    @@map("tbHistoricoUsuario")
+}
+
+model ProdutoMedida {
+    id String @id @default(uuid())
+
+    produto   Produto @relation(fields: [produtoId], references: [id])
+    produtoId String
+
+    unidadeMedida   UnidadeMedida @relation(fields: [unidadeMedidaId], references: [id])
+    unidadeMedidaId String
+
+    created_at DateTime @default(now())
+
+    @@map("tbProdutoMedida")
+}
+
+model Roles {
+    id   String @id @default(uuid())
+    nome Role?
+
+    created_at  DateTime     @default(now())
+    UsuarioRole UsuarioRole?
+
+    @@map("tbRoles")
+}
+
+enum Role {
+    USER
+    ADMIN
+}
+
+model UsuarioRole {
+    id String @id @default(uuid())
+
+    usuario   Usuario? @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+    usuarioId String   @unique
+
+    roles   Roles  @relation(fields: [rolesId], references: [id], onDelete: Cascade)
+    rolesId String @unique
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("tbUsuarioRoles")
+}
+
+model Estados {
+    id         String @id @default(uuid())
+    nome       String
+    abreviacao String
+
+    created_at DateTime  @default(now())
+    updated_at DateTime  @updatedAt
+    Cidades    Cidades[]
+
+    @@map("tbEstado")
+}
+
+model Cidades {
+    id   String @id @default(uuid())
+    nome String
+
+    estados   Estados @relation(fields: [estadosId], references: [id])
+    estadosId String
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("tbCidade")
+}
+
+// model OrgaoEmissor {
+//     id   String @id @default(uuid())
+//     nome String
+
+//     created_at DateTime @default(now())
+//     updated_at DateTime @updatedAt
+
+//     @@map("tbOrgaoEmissor")
+// }
+
+model CampanhaFavorita {
+    id String @id @default(uuid())
+
+    usuarioId  String
+    usuario    Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+    campanhaId String
+    campanha   Campanha @relation(fields: [campanhaId], references: [id])
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("tbCampanhaFavorita")
+}
+
+// model TipoContato {
+//     Usuário pode querer informar se o contato é (Fixo, Whatsapp, Celular)
+//     id   String @id @default(uuid())
+//     nome String
+
+//     created_at DateTime @default(now())
+//     updated_at DateTime @updatedAt
+
+//     @@map("tbTipoContato")
+// }
+
+// model UsuarioContato {
+//     id        String @id @default(uuid())
+//     usuarioId String
+//     usuario    Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+//     contato String
+
+//     tipoContatoId String
+//     tipoContato TipoContato @relation(fields: [tipoContatoId], references: [id])
+
+//     created_at DateTime @default(now())
+//     updated_at DateTime @updatedAt
+
+//     @@map("tbUsuarioContato")
+// }
+
+// model RedeSocial {
+// 	id        String @id @default(uuid())
+// 	nome String
+
+// 	created_at DateTime @default(now())
+// 	updated_at DateTime @updatedAt
+// 	@@map("tbRedeSocial")
+// }
+
+
+// model UsuarioRedeSocial {
+// 	id	String @id @default(uuid())
+
+// 	usuarioId String
+// 	usuario Usuario
+
+// 	redesocialId String
+// 	redesocial RedeSocial
+
+// 	created_at DateTime @default(now())
+// 	updated_at DateTime @updatedAt
+// 	@@map("tbUsuarioRedeSocial")
+// }
