@@ -3,13 +3,13 @@ import { bodySchema, paramsSchema } from '../validations';
 
 import ProdutoController from '../controller/ProdutoController';
 import { Response, Router } from 'express';
-import { verificaAutenticacaoUsuario } from 'src/middleware/checkAuthentication';
-import { checkOng } from 'src/middleware/checkOng';
-import { isAdmin } from 'src/middleware/isAdmin';
+// import { verificaAutenticacaoUsuario } from 'src/middleware/checkAuthentication';
+// import { checkOng } from 'src/middleware/checkOng';
+// import { isAdmin } from 'src/middleware/isAdmin';
 
 const produto = Router();
 
-produto.get('/ok', verificaAutenticacaoUsuario, checkOng, isAdmin, (req, res) => {
+produto.get('/ok', (req, res) => {
 	res.status(200).json({
 		message: 'Produto OK',
 		resposta: req.id
