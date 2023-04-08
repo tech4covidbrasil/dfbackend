@@ -8,7 +8,7 @@ interface ITipoDocumento {
 
 type ITipoDocumentoOmitId = Omit<ITipoDocumento, 'id'>;
 
-export const updateProduto = async ({
+export const updateTipoDocumento = async ({
 	docNome
 }: ITipoDocumentoOmitId, id: string, ): Promise<ITipoDocumento> => {
 

@@ -13,6 +13,7 @@ import produtoDoacaoCampanha from "src/modules/ProdutoCampanhaDoacao/routes/Prod
 import prodUndMedida from "src/modules/ProdutoMedida/routes/produtomedida.routes";
 import usuario from "src/modules/Usuario/routes/usuario.routes";
 import autenticacao from "src/modules/Usuario/routes/user.auth.routes";
+import tipoDocumento from "src/modules/TipoDocumento/routes/tipoDocumento.routes";
 
 const routes = Router()
 
@@ -29,5 +30,6 @@ routes.use('/doacao-campanha', produtoDoacaoCampanha)
 routes.use('/produto-medida', prodUndMedida)
 routes.use('/usuario', usuario)
 routes.use('/auth', autenticacao)
+routes.use('/tipo-documento', tipoDocumento)
 
 export default routes
