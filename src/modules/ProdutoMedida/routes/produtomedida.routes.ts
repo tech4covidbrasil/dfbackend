@@ -1,7 +1,7 @@
 import { celebrate, Segments } from 'celebrate';
 import { bodySchema, paramsSchema } from '../validations';
 
-import ProdutoMediaController from '../controller/ProdutoMediaController';
+import ProdutoMedidaController from '../controller/ProdutoMedidaController';
 import { Router } from 'express';
 
 const prodUndMedida = Router();
@@ -12,13 +12,13 @@ prodUndMedida.get('/ok', (req, res) => {
 	});
 });
 
-prodUndMedida.get('/', ProdutoMediaController.index);
+prodUndMedida.get('/', ProdutoMedidaController.index);
 prodUndMedida.get(
 	'/:id',
 	celebrate({
 		[Segments.PARAMS]: paramsSchema,
 	}),
-	ProdutoMediaController.showById,
+	ProdutoMedidaController.showById,
 );
 
 prodUndMedida.post(
@@ -26,7 +26,7 @@ prodUndMedida.post(
 	celebrate({
 		[Segments.BODY]: bodySchema,
 	}),
-	ProdutoMediaController.store,
+	ProdutoMedidaController.store,
 );
 prodUndMedida.put(
 	'/:id/editar',
@@ -34,7 +34,7 @@ prodUndMedida.put(
 		[Segments.BODY]: bodySchema,
 		[Segments.PARAMS]: paramsSchema,
 	}),
-	ProdutoMediaController.update,
+	ProdutoMedidaController.update,
 );
 
 prodUndMedida.delete(
@@ -42,7 +42,7 @@ prodUndMedida.delete(
 	celebrate({
 		[Segments.PARAMS]: paramsSchema,
 	}),
-	ProdutoMediaController.delete,
+	ProdutoMedidaController.delete,
 );
 
 export default prodUndMedida;
