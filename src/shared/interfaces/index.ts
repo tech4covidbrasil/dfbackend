@@ -34,6 +34,7 @@ export interface ITipoDocumento {
 }
 
 export interface IFoto {
+	//revisar
 	id: string;
 	foto_nome: string;
 	foto_path: string;

@@ -40,6 +40,7 @@ class ProdutoController {
 		}
 	}
 	public async update(request: Request, response: Response) {
+		console.log(request.params.id)
 		try {
 			const produtoUpdate = await updateLead(
 				request.body,

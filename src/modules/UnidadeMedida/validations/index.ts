@@ -7,6 +7,6 @@ export const bodySchema = Joi.object().keys({
 .options({ abortEarly: false });
 
 export const paramsSchema = Joi.object().keys({
-	id: Joi.string().uuid()
+	id: Joi.number()
 })
 .options({ abortEarly: false });

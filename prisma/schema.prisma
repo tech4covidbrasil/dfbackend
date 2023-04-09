@@ -132,7 +132,7 @@ model Doacao {
     campanhaId String
 
     produto   Produto @relation(fields: [produtoId], references: [id])
-    produtoId String
+    produtoId Int
 
     quantidadeDoada Int
 
@@ -160,7 +160,7 @@ model Campanha {
     isValidated         Boolean  @default(false)
     isActive            Boolean  @default(false)
 
-    usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+    usuario   Usuario @relation(fields: [usuarioId], references: [id])
     usuarioId String
 
     updated_at DateTime @updatedAt
@@ -188,7 +188,7 @@ model UnidadeMedida {
 }
 
 model Produto {
-    id   String @id @default(uuid())
+    id   Int    @id @default(autoincrement())
     nome String @unique
 
     updated_at DateTime @updatedAt
@@ -205,7 +205,7 @@ model ProdutoCampanhaDoacao {
     id String @id @default(uuid())
 
     produto   Produto @relation(fields: [produtoId], references: [id])
-    produtoId String
+    produtoId Int
 
     campanha   Campanha @relation(fields: [campanhaId], references: [id])
     campanhaId String
@@ -237,7 +237,7 @@ model ProdutoMedida {
     id String @id @default(uuid())
 
     produto   Produto @relation(fields: [produtoId], references: [id])
-    produtoId String
+    produtoId Int
 
     unidadeMedida   UnidadeMedida @relation(fields: [unidadeMedidaId], references: [id])
     unidadeMedidaId Int

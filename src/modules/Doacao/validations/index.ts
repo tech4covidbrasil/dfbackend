@@ -3,7 +3,7 @@ import { Joi } from 'celebrate';
 export const bodySchema = Joi.object().keys({
 	usuarioId: Joi.string(),
 	campanhaId: Joi.string(),
-	produtoId: Joi.string(),
+	produtoId: Joi.number(),
 	quantidadeDoada: Joi.number(),
 	isValidated: Joi.boolean(),
 })

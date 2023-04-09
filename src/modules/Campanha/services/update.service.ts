@@ -7,6 +7,8 @@ export const updateCampanha = async (
 	{
 		usuarioId,
 		nome,
+		cidadeCampanha,
+		estadoCampanha,
 		tipoArrecadacao,
 		descricao,
 		dataCriacaoCampanha,
@@ -24,6 +26,8 @@ export const updateCampanha = async (
 		data: {
 			usuarioId,
 			nome,
+			cidadeCampanha,
+			estadoCampanha,
 			tipoArrecadacao,
 			descricao,
 			dataCriacaoCampanha,

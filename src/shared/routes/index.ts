@@ -7,6 +7,7 @@ import endereco from "src/modules/Endereco/routes/endereco.routes";
 import produto from "src/modules/Produto/routes/produto.routes";
 import foto from "src/modules/Foto/routes/foto.routes";
 import campanha from "src/modules/Campanha/routes/campanha.routes";
+import campanhaFavorita from "src/modules/CampanhaFavorita/routes/campanha.routes";
 import doacao from "src/modules/Doacao/routes/doacao.routes";
 import historicoUsuario from "src/modules/HistoricoUsuario/routes/historicoUsuario.routes";
 import produtoDoacaoCampanha from "src/modules/ProdutoCampanhaDoacao/routes/ProdCampDoacao.routes";
@@ -24,6 +25,7 @@ routes.use('/endereco', endereco)
 routes.use('/produto', produto)
 routes.use('/foto', foto)
 routes.use('/campanha', campanha)
+routes.use('/campanha-favorita', campanhaFavorita)
 routes.use('/doacao', doacao)
 routes.use('/historico', historicoUsuario)
 routes.use('/doacao-campanha', produtoDoacaoCampanha)

@@ -15,7 +15,7 @@ const documentPattern =
 export const bodySchema = Joi.object()
 	.keys({
 		dataNascimento: Joi.string().min(3),
-		tipoDocumentoId: Joi.string().guid(),
+		tipoDocumentoId: Joi.number(),
 		documentoValor: Joi.string().regex(documentPattern),
 		usuarioId: Joi.string().guid(),
 	})

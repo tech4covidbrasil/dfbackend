@@ -23,7 +23,6 @@ export const createCampanha = async ({
 			estadoCampanha,
 			tipoArrecadacao,
 			descricao,
-
 			dataTerminoCampanha,
 			isValidated,
 			isActive,

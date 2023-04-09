@@ -34,14 +34,14 @@ export const updateLead = async (
 
 	if (!lead) throw new ApiErrors('Lead não encontrado');
 
-	const leadExist = await prisma.landingPageLeads.findUnique({
-		where: {
-			nome,
-		},
-	});
+	// const leadExist = await prisma.landingPageLeads.findUnique({
+	// 	where: {
+	// 		nome: lead.nome
+	// 	},
+	// });
 
-	if (leadExist && nome !== lead.nome)
-		throw new ApiErrors('Lead já cadastrado com esse nome.');
+	// if (leadExist && nome !== lead.nome)
+	// 	throw new ApiErrors('Lead já cadastrado com esse nome.');
 
 	return prisma.landingPageLeads.update({
 		where: {

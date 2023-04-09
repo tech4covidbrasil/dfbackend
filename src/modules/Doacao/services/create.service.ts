@@ -3,7 +3,7 @@ import prisma from '@config/prisma';
 interface IDoacao {
 	usuarioId: string;
 	campanhaId: string;
-	produtoId: string;
+	produtoId: number;
 	quantidadeDoada: number;
 	isValidated: boolean;
 }
@@ -16,8 +16,9 @@ export const createDoacao = async ({
 	produtoId,
 	quantidadeDoada,
 	isValidated,
-}: IDoacaoOmitId): Promise<IDoacao> => {
-	return prisma.doacao.create({
+}: IDoacaoOmitId): Promise<void> => {
+
+	return await prisma.doacao.create({
 		data: {
 			usuarioId,
 			campanhaId,
