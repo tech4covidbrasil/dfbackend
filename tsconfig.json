@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"lib": ["es6", "esnext"],
+		"allowJs": true,
+		"outDir": "dist",
+		"rootDir": "./src",
+		"typeRoots": ["@types", "./node_modules/@types"],
+		"removeComments": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"emitDecoratorMetadata": true,
+		"baseUrl": ".",
+		"paths": {
+			"@config/*": ["src/config/*"],
+			"@modules/*": ["src/config/*"],
+			"@shared/*": ["src/config/*"]
+		}
+	},
+	"include": ["./src"]
+}
