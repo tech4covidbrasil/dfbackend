@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/http/server.ts",
     "lint": "eslint . --ext .ts",
-    "lint-fix": "eslint . --ext .ts --fix",
-    "dev2": "nodemon ./src/server.js"
+    "lint-fix": "eslint . --ext .ts --fix"
   },
   "repository": {
     "type": "git",

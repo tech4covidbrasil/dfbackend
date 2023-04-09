@@ -3,62 +3,61 @@ import { Request, Response } from 'express';
 import { ErrorResponse, SuccessResponse } from 'src/shared/utils/ApiResponse';
 
 import {
-	createProdutoCampanhaDoacao,
-	listProdutoCampanhaDoacao,
-	getProdutoCampanhaDoacaoById,
-	updateProdutoCampanhaDoacao,
-	deleteProdutoCampanhaDoacao,
+	createRedeSocial,
+	listRedeSocial,
+	getRedeSocialById,
+	updateRedeSocial,
+	deleteRedeSocial,
 } from '../services/index';
 
-class ProdutoDoadorCampanha {
+class RedeSocialController {
 	public async index(request: Request, response: Response) {
 		try {
-			const showAll = await listProdutoCampanhaDoacao();
-			SuccessResponse(response, 200, 'Registros Encontrados.', showAll);
+			const showAll = await listRedeSocial();
+			SuccessResponse(response, 200, "Registros Encontrados.", showAll)
 		} catch (error: any) {
 			ErrorResponse(response, 500, 'Ocorreu um erro', error.message);
 		}
 	}
 	public async showById(request: Request, response: Response) {
 		try {
-			const getById = await getProdutoCampanhaDoacaoById(
-				request.params.id,
-			);
+			const getById = await getRedeSocialById(Number(request.params.id));
 
-			SuccessResponse(response, 200, 'Registros Encontrados.', getById);
+			SuccessResponse(response, 200, "Registros Encontrados.", getById)
 		} catch (error: any) {
 			ErrorResponse(response, 500, 'Ocorreu um erro', error.message);
 		}
 	}
 	public async store(request: Request, response: Response) {
-		try {
-			const create = await createProdutoCampanhaDoacao(request.body);
 
-			SuccessResponse(response, 201, 'Registros Criado.', create);
+		try {
+			const redeSocialCreate = await createRedeSocial(request.body);
+
+			SuccessResponse(response, 201, "Registros Criado.", redeSocialCreate)
 		} catch (error: any) {
 			ErrorResponse(response, 500, 'Ocorreu um erro', error.message);
 		}
 	}
 	public async update(request: Request, response: Response) {
 		try {
-			const update = await updateProdutoCampanhaDoacao(
+			const redeSocialUpdate = await updateRedeSocial(
 				request.body,
-				request.params.id,
+				Number(request.params.id),
 			);
-			SuccessResponse(response, 202, 'Atualizado.', update);
+			SuccessResponse(response, 202, "Atualizado.", redeSocialUpdate)
 		} catch (error: any) {
 			ErrorResponse(response, 500, 'Ocorreu um erro', error.message);
 		}
 	}
 	public async delete(request: Request, response: Response) {
 		try {
-			await deleteProdutoCampanhaDoacao(request.params.id);
+			await deleteRedeSocial(Number(request.params.id));
 
-			SuccessResponse(response, 204, 'Atualizado.');
+			SuccessResponse(response, 204, "Atualizado.")
 		} catch (error: any) {
 			ErrorResponse(response, 500, 'Ocorreu um erro', error.message);
 		}
 	}
 }
 
-export default new ProdutoDoadorCampanha();
+export default new RedeSocialController();

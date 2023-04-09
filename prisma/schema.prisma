@@ -138,9 +138,8 @@ model Doacao {
 
     isValidated Boolean @default(false)
 
-    updated_at            DateTime                @updatedAt
-    created_at            DateTime                @default(now())
-    ProdutoCampanhaDoacao ProdutoCampanhaDoacao[]
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
 
     @@map("tbDoacao")
 }
@@ -167,7 +166,6 @@ model Campanha {
     created_at DateTime @default(now())
 
     Doacao           Doacao[]
-    ProdutoCampanha  ProdutoCampanhaDoacao[]
     CampanhaFavorita CampanhaFavorita[]
 
     @@map("tbCampanha")
@@ -194,31 +192,10 @@ model Produto {
     updated_at DateTime @updatedAt
     created_at DateTime @default(now())
 
-    Doacao          Doacao[]
-    ProdutoCampanha ProdutoCampanhaDoacao[]
-    ProdutoMedida   ProdutoMedida[]
+    Doacao        Doacao[]
+    ProdutoMedida ProdutoMedida[]
 
     @@map("tbProduto")
-}
-
-model ProdutoCampanhaDoacao {
-    id String @id @default(uuid())
-
-    produto   Produto @relation(fields: [produtoId], references: [id])
-    produtoId Int
-
-    campanha   Campanha @relation(fields: [campanhaId], references: [id])
-    campanhaId String
-
-    doacao   Doacao @relation(fields: [doacaoId], references: [id])
-    doacaoId String
-
-    quantidadeDoada Int
-
-    updated_at DateTime @updatedAt
-    created_at DateTime @default(now())
-
-    @@map("tbProdutoCampanhaDoacao")
 }
 
 model HistoricoUsuario {
@@ -315,16 +292,6 @@ model CidadesEstados {
     @@map("tbCidadeEstado")
 }
 
-// model OrgaoEmissor {
-//     id   String @id @default(uuid())
-//     nome String
-
-//     created_at DateTime @default(now())
-//     updated_at DateTime @updatedAt
-
-//     @@map("tbOrgaoEmissor")
-// }
-
 model CampanhaFavorita {
     id String @id @default(uuid())
 
@@ -339,36 +306,9 @@ model CampanhaFavorita {
     @@map("tbCampanhaFavorita")
 }
 
-// model TipoContatoTelefone {
-//     Usuário pode querer informar se o contato é (Fixo, Whatsapp, Celular)
-//     id   String @id @default(uuid())
-//     nome String
-
-//     created_at DateTime @default(now())
-//     updated_at DateTime @updatedAt
-
-//     @@map("tbTipoContatoTelefone")
-// }
-
-// model UsuarioContato {
-//     id        String @id @default(uuid())
-//     usuarioId String
-//     usuario    Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
-
-//     contato String
-
-//     tipoContatoId String
-//     tipoContato TipoContato @relation(fields: [tipoContatoId], references: [id])
-
-//     created_at DateTime @default(now())
-//     updated_at DateTime @updatedAt
-
-//     @@map("tbUsuarioContato")
-// }
-
 model RedeSocial {
     id   Int    @id @default(autoincrement())
-    nome String
+    nome String @unique
 
     created_at        DateTime            @default(now())
     updated_at        DateTime            @updatedAt
@@ -378,7 +318,8 @@ model RedeSocial {
 }
 
 model UsuarioRedeSocial {
-    id Int @id @default(autoincrement())
+    id        Int    @id @default(autoincrement())
+    descricao String
 
     usuarioId String
     usuario   Usuario @relation(fields: [usuarioId], references: [id])
