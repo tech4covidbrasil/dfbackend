@@ -31,10 +31,11 @@ model Usuario {
     Documento   Documento?
     UsuarioRole UsuarioRole?
 
-    Doacao           Doacao[]
-    Campanha         Campanha[]
-    HistoricoUsuario HistoricoUsuario[]
-    CampanhaFavorita CampanhaFavorita[]
+    Doacao            Doacao[]
+    Campanha          Campanha[]
+    HistoricoUsuario  HistoricoUsuario[]
+    CampanhaFavorita  CampanhaFavorita[]
+    UsuarioRedeSocial UsuarioRedeSocial[]
 
     @@map("tbUsuario")
 }
@@ -47,8 +48,8 @@ model Documento {
     usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
     usuarioId String  @unique
 
-    tipoDocumentoId String
     tipoDocumento   TipoDocumento @relation(fields: [tipoDocumentoId], references: [id])
+    tipoDocumentoId Int           @unique
 
     updated_at DateTime @updatedAt
     created_at DateTime @default(now())
@@ -56,8 +57,8 @@ model Documento {
     @@map("tbDocumento")
 }
 
-model TipoDocumento {//	RG, CPF, CNPJ, PASSAPORTE, CNH
-    id      String @id @default(uuid())
+model TipoDocumento {
+    id      Int    @id @default(autoincrement())
     docNome String @unique
 
     updated_at DateTime    @updatedAt
@@ -67,8 +68,7 @@ model TipoDocumento {//	RG, CPF, CNPJ, PASSAPORTE, CNH
     @@map("tbTipoDocumento")
 }
 
-model Foto {//	FOTO AVATAR
-
+model Foto {
     id        String @id @default(uuid())
     foto_nome String
     foto_path String
@@ -94,9 +94,9 @@ model Endereco {
     complemento String?
     bairro      String
 
-	//	Definir se a cidade/estado será selecionado manualmente ou preenchido automaticamente pela api
-    cidade      String
-    estado      String
+    //	Definir se a cidade/estado será selecionado manualmente ou preenchido automaticamente pela api
+    cidade String
+    estado String
 
     usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
     usuarioId String  @unique
@@ -126,13 +126,13 @@ model Doacao {
     id String @id @default(uuid())
 
     usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
-    usuarioId String  @unique
+    usuarioId String
 
     campanha   Campanha @relation(fields: [campanhaId], references: [id])
-    campanhaId String   @unique
+    campanhaId String
 
     produto   Produto @relation(fields: [produtoId], references: [id])
-    produtoId String  @unique
+    produtoId String
 
     quantidadeDoada Int
 
@@ -146,12 +146,12 @@ model Doacao {
 }
 
 model Campanha {
-    id String @id @default(uuid())
-    nome                String
+    id   String @id @default(uuid())
+    nome String
 
-	//	Vai ser utilizada nossa tabela de Cidades/Estados?
-    cidadeCampanha      String
-    estadoCampanha      String
+    //	Vai ser utilizada nossa tabela de Cidades/Estados?
+    cidadeCampanha String
+    estadoCampanha String
 
     tipoArrecadacao     String
     descricao           String
@@ -161,7 +161,7 @@ model Campanha {
     isActive            Boolean  @default(false)
 
     usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
-    usuarioId String  @unique
+    usuarioId String
 
     updated_at DateTime @updatedAt
     created_at DateTime @default(now())
@@ -174,8 +174,8 @@ model Campanha {
 }
 
 model UnidadeMedida {
-	//	Kg, Litro, Unidade
-    id         String @id @default(uuid())
+    //	Kg, Litro, Unidade
+    id         Int    @id @default(autoincrement())
     nome       String @unique
     abreviacao String
 
@@ -240,7 +240,7 @@ model ProdutoMedida {
     produtoId String
 
     unidadeMedida   UnidadeMedida @relation(fields: [unidadeMedidaId], references: [id])
-    unidadeMedidaId String
+    unidadeMedidaId Int
 
     created_at DateTime @default(now())
 
@@ -278,9 +278,9 @@ model UsuarioRole {
 }
 
 model Estados {
-    id         String @id @default(uuid())
-    nome       String
-    abreviacao String
+    id         Int    @id @default(autoincrement())
+    nome       String @unique
+    abreviacao String @unique
 
     created_at DateTime  @default(now())
     updated_at DateTime  @updatedAt
@@ -290,11 +290,11 @@ model Estados {
 }
 
 model Cidades {
-    id   String @id @default(uuid())
-    nome String
+    id   Int    @id @default(autoincrement())
+    nome String @unique
 
     estados   Estados @relation(fields: [estadosId], references: [id])
-    estadosId String
+    estadosId Int     @unique
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
@@ -326,7 +326,7 @@ model CampanhaFavorita {
     @@map("tbCampanhaFavorita")
 }
 
-// model TipoContato {
+// model TipoContatoTelefone {
 //     Usuário pode querer informar se o contato é (Fixo, Whatsapp, Celular)
 //     id   String @id @default(uuid())
 //     nome String
@@ -334,7 +334,7 @@ model CampanhaFavorita {
 //     created_at DateTime @default(now())
 //     updated_at DateTime @updatedAt
 
-//     @@map("tbTipoContato")
+//     @@map("tbTipoContatoTelefone")
 // }
 
 // model UsuarioContato {
@@ -353,26 +353,28 @@ model CampanhaFavorita {
 //     @@map("tbUsuarioContato")
 // }
 
-// model RedeSocial {
-// 	id        String @id @default(uuid())
-// 	nome String
+model RedeSocial {
+    id   Int    @id @default(autoincrement())
+    nome String
 
-// 	created_at DateTime @default(now())
-// 	updated_at DateTime @updatedAt
-// 	@@map("tbRedeSocial")
-// }
+    created_at        DateTime            @default(now())
+    updated_at        DateTime            @updatedAt
+    UsuarioRedeSocial UsuarioRedeSocial[]
 
+    @@map("tbRedeSocial")
+}
 
-// model UsuarioRedeSocial {
-// 	id	String @id @default(uuid())
+model UsuarioRedeSocial {
+    id Int @id @default(autoincrement())
 
-// 	usuarioId String
-// 	usuario Usuario
+    usuarioId String
+    usuario   Usuario @relation(fields: [usuarioId], references: [id])
 
-// 	redesocialId String
-// 	redesocial RedeSocial
+    redesocial   RedeSocial @relation(fields: [redeSocialId], references: [id])
+    redeSocialId Int
 
-// 	created_at DateTime @default(now())
-// 	updated_at DateTime @updatedAt
-// 	@@map("tbUsuarioRedeSocial")
-// }
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("tbUsuarioRedeSocial")
+}
