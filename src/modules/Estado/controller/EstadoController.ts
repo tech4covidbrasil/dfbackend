@@ -3,17 +3,17 @@ import { Request, Response } from 'express';
 import { ErrorResponse, SuccessResponse } from 'src/shared/utils/ApiResponse';
 
 import {
-	createCidade,
-	listCidade,
-	getCidadeById,
-	updateCidade,
-	deleteCidade,
+	createEstado,
+	listEstado,
+	getEstadoById,
+	updateEstado,
+	deleteEstado,
 } from '../services/index';
 
-class CidadeController {
+class EstadoController {
 	public async index(request: Request, response: Response) {
 		try {
-			const showAll = await listCidade();
+			const showAll = await listEstado();
 			SuccessResponse(response, 200, "Registros Encontrados.", showAll)
 		} catch (error: any) {
 			ErrorResponse(response, 500, 'Ocorreu um erro', error.message);
@@ -21,7 +21,7 @@ class CidadeController {
 	}
 	public async showById(request: Request, response: Response) {
 		try {
-			const getById = await getCidadeById(Number(request.params.id));
+			const getById = await getEstadoById(Number(request.params.id));
 
 			SuccessResponse(response, 200, "Registros Encontrados.", getById)
 		} catch (error: any) {
@@ -31,27 +31,27 @@ class CidadeController {
 	public async store(request: Request, response: Response) {
 
 		try {
-			const cidadeCreate = await createCidade(request.body);
+			const estadoCreate = await createEstado(request.body);
 
-			SuccessResponse(response, 201, "Registros Criado.", cidadeCreate)
+			SuccessResponse(response, 201, "Registros Criado.", estadoCreate)
 		} catch (error: any) {
 			ErrorResponse(response, 500, 'Ocorreu um erro', error.message);
 		}
 	}
 	public async update(request: Request, response: Response) {
 		try {
-			const produtoUpdate = await updateCidade(
+			const estadoUpdate = await updateEstado(
 				request.body,
 				Number(request.params.id),
 			);
-			SuccessResponse(response, 202, "Atualizado.", produtoUpdate)
+			SuccessResponse(response, 202, "Atualizado.", estadoUpdate)
 		} catch (error: any) {
 			ErrorResponse(response, 500, 'Ocorreu um erro', error.message);
 		}
 	}
 	public async delete(request: Request, response: Response) {
 		try {
-			await deleteCidade(Number(request.params.id));
+			await deleteEstado(Number(request.params.id));
 
 			SuccessResponse(response, 204, "Atualizado.")
 		} catch (error: any) {
@@ -60,4 +60,4 @@ class CidadeController {
 	}
 }
 
-export default new CidadeController();
+export default new EstadoController();
