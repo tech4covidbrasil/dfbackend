@@ -96,7 +96,7 @@ export interface UnidadeMedida {
 }
 
 export interface IProduto {
-	id: string;
+	id: number;
 	nome: string;
 }
 
@@ -125,3 +125,8 @@ export interface IUsuarioRoles {
 	usuarioId: string;
 	rolesId: string;
 }
+
+export interface ICidade {
+	id: number;
+	nome: string;
+};

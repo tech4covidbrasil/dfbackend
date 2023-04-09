@@ -1,18 +1,12 @@
 import prisma from '@config/prisma';
 import ApiErrors from 'src/shared/errors/ApiErrors';
-
-interface IProduto {
-	id: string;
-	nome: string;
-	unidadeMedidaId: string
-};
+import { IProduto } from 'src/shared/interfaces';
 
 type IProdutoOmitId = Omit<IProduto, 'id'>;
 
 export const updateProduto = async ({
 	nome,
-	unidadeMedidaId,
-}: IProdutoOmitId, id: string, ): Promise<IProduto> => {
+}: IProdutoOmitId, id: number, ): Promise<IProduto> => {
 
 	const produto = await prisma.produto.findUnique({
 		where: {
@@ -30,13 +24,12 @@ export const updateProduto = async ({
 
 	if(produtoExists && nome !== produto.nome) throw new ApiErrors("Produto já cadastrado com esse nome.")
 
-	return prisma.produto.update({
+	return await prisma.produto.update({
 		where: {
 			id,
 		},
 		data: {
-			nome,
-			unidadeMedidaId,
+			nome
 		},
 	});
 };

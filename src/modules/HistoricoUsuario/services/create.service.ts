@@ -1,9 +1,5 @@
 import prisma from '@config/prisma';
-
-interface IHistoricoUsuario {
-	usuarioId: string;
-	descricao: string;
-}
+import { IHistoricoUsuario } from 'src/shared/interfaces';
 
 type IHistoricoUsuarioOmitId = Omit<IHistoricoUsuario, 'id'>;
 
@@ -11,7 +7,7 @@ export const createHistoricoUsuario = async ({
 	usuarioId,
 	descricao,
 }: IHistoricoUsuarioOmitId): Promise<IHistoricoUsuario> => {
-	return prisma.historicoUsuario.create({
+	return await prisma.historicoUsuario.create({
 		data: {
 			usuarioId,
 			descricao,

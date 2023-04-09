@@ -2,7 +2,7 @@ import prisma from '@config/prisma';
 import ApiErrors from 'src/shared/errors/ApiErrors';
 
 interface ITipoDocumento {
-	id: string;
+	id: number;
 	docNome: string;
 };
 
@@ -20,7 +20,7 @@ export const createTipoDocumento = async ({
 
 	if(TipoDocumentoExists) throw new ApiErrors("Tipo de Documento já cadastrado", 400)
 
-	return prisma.tipoDocumento.create({
+	return await prisma.tipoDocumento.create({
 		data: {
 			docNome,
 		},

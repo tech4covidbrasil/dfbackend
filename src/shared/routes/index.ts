@@ -33,5 +33,7 @@ routes.use('/produto-medida', prodUndMedida)
 routes.use('/usuario', usuario)
 routes.use('/auth', autenticacao)
 routes.use('/tipo-documento', tipoDocumento)
+// routes.use('/cidade', )
+// routes.use('/estado', )
 
 export default routes

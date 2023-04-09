@@ -1,10 +1,10 @@
 import prisma from '@config/prisma';
 
-export const deleteProduto = async (
+export const deleteCidade = async (
 	id: number,
 ): Promise<void> => {
 
-	await prisma.produto.delete({
+	await prisma.cidades.delete({
 		where: {
 			id
 		}

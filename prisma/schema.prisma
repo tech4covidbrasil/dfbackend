@@ -282,9 +282,9 @@ model Estados {
     nome       String @unique
     abreviacao String @unique
 
-    created_at DateTime  @default(now())
-    updated_at DateTime  @updatedAt
-    Cidades    Cidades[]
+    created_at     DateTime         @default(now())
+    updated_at     DateTime         @updatedAt
+    CidadesEstados CidadesEstados[]
 
     @@map("tbEstado")
 }
@@ -293,13 +293,26 @@ model Cidades {
     id   Int    @id @default(autoincrement())
     nome String @unique
 
+    created_at     DateTime         @default(now())
+    updated_at     DateTime         @updatedAt
+    CidadesEstados CidadesEstados[]
+
+    @@map("tbCidade")
+}
+
+model CidadesEstados {
+    id Int @id @default(autoincrement())
+
+    cidadesId Int
+    cidades   Cidades @relation(fields: [cidadesId], references: [id])
+
+    estadosId Int
     estados   Estados @relation(fields: [estadosId], references: [id])
-    estadosId Int     @unique
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
 
-    @@map("tbCidade")
+    @@map("tbCidadeEstado")
 }
 
 // model OrgaoEmissor {

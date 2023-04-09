@@ -1,17 +1,6 @@
 import prisma from '@config/prisma';
+import { IEndereco } from 'src/shared/interfaces';
 
-interface IEndereco {
-	ddd: string;
-	telefone: string;
-	cep: string;
-	endereco: string;
-	numero: number;
-	complemento?: string | null;
-	bairro: string;
-	cidade: string;
-	estado: string;
-	usuarioId: string;
-}
 type IEnderecoOmitId = Omit<IEndereco, 'id'>;
 
 export const createEndereco = async ({
