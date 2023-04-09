@@ -135,3 +135,10 @@ export interface IRedeSocial {
 	id: number;
 	nome: string;
 };
+
+export interface IUsuarioRedeSocial {
+	id: number;
+	descricao: string;
+	usuarioId: string;
+	redeSocialId: number
+};

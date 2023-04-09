@@ -325,7 +325,7 @@ model UsuarioRedeSocial {
     usuario   Usuario @relation(fields: [usuarioId], references: [id])
 
     redesocial   RedeSocial @relation(fields: [redeSocialId], references: [id])
-    redeSocialId Int
+    redeSocialId Int @unique
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
