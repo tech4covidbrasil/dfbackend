@@ -1,5 +1,5 @@
-import prisma from '@config/prisma';
-import { IEndereco } from 'src/shared/interfaces';
+import prisma from '../../../config/prisma';
+import { IEndereco } from '../../../shared/interfaces';
 
 type IEnderecoOmitId = Omit<IEndereco, 'id'>;
 

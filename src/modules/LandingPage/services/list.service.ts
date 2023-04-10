@@ -1,15 +1,5 @@
-import prisma from '@config/prisma';
-
-interface ILandingPage {
-	id: string;
-	nome: string;
-	email: string,
-	telefone: string;
-	cidade: string;
-	estado: string;
-	tipoLead: string;
-	termosAceitos: boolean;
-};
+import prisma from '../../../config/prisma';
+import { ILandingPage } from '../../../shared/interfaces';
 
 export const listLead = async (): Promise<ILandingPage[]> => {
 	return await prisma.landingPageLeads.findMany()

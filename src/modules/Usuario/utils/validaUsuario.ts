@@ -1,4 +1,4 @@
-import prisma from '@config/prisma';
+import prisma from '../../../config/prisma';
 
 export const validaNome = async (nome: string) => {
 	return (await prisma.usuario.findUnique({

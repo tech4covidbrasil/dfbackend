@@ -1,13 +1,7 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { IDoacao } from '../../../shared/interfaces';
 
-interface IDoacao {
-	usuarioId: string;
-	campanhaId: string;
-	produtoId: string;
-	quantidadeDoada: number;
-	isValidated: boolean
-}
 export const getDoacaoById = async (
 	id: string,
 ): Promise<IDoacao> => {

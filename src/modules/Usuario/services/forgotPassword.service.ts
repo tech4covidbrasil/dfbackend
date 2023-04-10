@@ -1,17 +1,17 @@
-import ApiErrors from 'src/shared/errors/ApiErrors';
-import { IUsuario } from 'src/shared/interfaces';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { IUsuario } from '../../../shared/interfaces';
 import { validaEmail } from '../utils/validaUsuario';
 import { getUsuarioByEmail, getUsuarioById } from './get.service';
 
 import path from 'path';
 
-import prisma from '@config/prisma';
+import prisma from '../../../config/prisma';
 import crypto from 'crypto';
 import { cryptPwd } from '../utils/password';
-import EtherealMail from '@config/mail/EtherealMail';
+import EtherealMail from '../../../config/mail/EtherealMail';
 // import { decodeToken } from '../utils/token';
-import SESMail from '@config/mail/SESMail';
-import mailConfig from '@config/mail/email';
+import SESMail from '../../../config/mail/SESMail';
+import mailConfig from '../../../config/mail/email';
 
 export const esqueciSenha = async (email: string): Promise<void> => {
 	const userEmailExist = await getUsuarioByEmail(email);

@@ -1,16 +1,5 @@
-import prisma from '@config/prisma';
-
-interface IUsuario {
-	nome: string;
-	email: string;
-	senha: string;
-	senhaResetToken?: string | null;
-	senhaResetExpires?: Date | null;
-	tipoUsuario: string;
-	termos: boolean;
-	lgpd: boolean;
-	isValidated?: boolean | null;
-}
+import prisma from '../../../config/prisma';
+import { IUsuario } from '../../../shared/interfaces';
 
 export const listUsuario = async (): Promise<IUsuario[]> => {
 	return await prisma.usuario.findMany();

@@ -1,4 +1,4 @@
-import { Joi } from 'celebrate';
+import {Joi} from 'celebrate';
 
 export const bodySchema = Joi.object().keys({
 	foto_nome: Joi.string(),

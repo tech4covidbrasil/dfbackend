@@ -1,10 +1,6 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-
-interface IFoto {
-	foto_nome: string;
-	foto_path: string;
-}
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { IFoto } from '../../../shared/interfaces';
 
 export const getFotoById = async (
 	id: string,

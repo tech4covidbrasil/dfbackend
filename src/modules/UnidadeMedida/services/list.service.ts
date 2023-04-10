@@ -1,12 +1,7 @@
-import prisma from '@config/prisma';
+import prisma from '../../../config/prisma';
+import { IUnidadeMedida } from '../../../shared/interfaces';
 
-type UnidadeMedida = {
-	id: string;
-	nome: string;
-	abreviacao: string;
-};
-
-export const listUnidadeMedida = async (): Promise<UnidadeMedida[]> => {
+export const listUnidadeMedida = async (): Promise<IUnidadeMedida[]> => {
 	return await prisma.unidadeMedida.findMany({
 		include: {
 			ProdutoMedida: {

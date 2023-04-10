@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { ErrorResponse, SuccessResponse } from 'src/shared/utils/ApiResponse';
+import { ErrorResponse, SuccessResponse } from '../../../shared/utils/ApiResponse';
 
 import {
 	createUnidadeMedida,
@@ -21,7 +21,7 @@ class UnidadeMedidaController {
 	}
 	public async showById(request: Request, response: Response) {
 		try {
-			const getById = await getUnidadeMedidaById(request.params.id);
+			const getById = await getUnidadeMedidaById(Number(request.params.id));
 
 			SuccessResponse(response, 200, "Registros Encontrados.", getById)
 		} catch (error: any) {
@@ -42,7 +42,7 @@ class UnidadeMedidaController {
 		try {
 			const unidadeMedidaUpdate = await updateUnidadeMedida(
 				request.body,
-				request.params.id,
+				Number(request.params.id),
 			);
 			SuccessResponse(response, 202, "Atualizado.", unidadeMedidaUpdate)
 		} catch (error: any) {
@@ -51,7 +51,7 @@ class UnidadeMedidaController {
 	}
 	public async delete(request: Request, response: Response) {
 		try {
-			await deleteUnidadeMedida(request.params.id);
+			await deleteUnidadeMedida(Number(request.params.id));
 
 			SuccessResponse(response, 204, "Atualizado.")
 		} catch (error: any) {

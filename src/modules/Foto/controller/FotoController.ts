@@ -1,6 +1,6 @@
-import upload from '@config/multer';
+import upload from '../../../config/multer';
 import { Request, Response } from 'express';
-import { ErrorResponse, SuccessResponse } from 'src/shared/utils/ApiResponse';
+import { ErrorResponse, SuccessResponse } from '../../../shared/utils/ApiResponse';
 
 import {
 	createFoto,

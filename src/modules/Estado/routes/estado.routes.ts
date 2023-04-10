@@ -1,49 +1,49 @@
 import { celebrate, Segments } from 'celebrate';
 import { bodySchema, paramsSchema } from '../validations';
 
-import CidadeController from '../controller/CidadeController';
+import EstadoController from '../controller/EstadoController';
 import { Response, Router } from 'express';
 
-const cidade = Router();
+const estado = Router();
 
-cidade.get('/ok', (req, res) => {
+estado.get('/ok', (req, res) => {
 	res.status(200).json({
-		message: 'cidade OK',
+		message: 'estado OK',
 		resposta: req.id
 	});
 });
 
-cidade.get('/', CidadeController.index);
-cidade.get(
+estado.get('/', EstadoController.index);
+estado.get(
 	'/:id',
 	celebrate({
 		[Segments.PARAMS]: paramsSchema,
 	}),
-	CidadeController.showById,
+	EstadoController.showById,
 );
 
-cidade.post(
+estado.post(
 	'/',
 	celebrate({
 		[Segments.BODY]: bodySchema,
 	}),
-	CidadeController.store,
+	EstadoController.store,
 );
-cidade.put(
+estado.put(
 	'/:id/editar',
 	celebrate({
 		[Segments.BODY]: bodySchema,
 		[Segments.PARAMS]: paramsSchema,
 	}),
-	CidadeController.update,
+	EstadoController.update,
 );
 
-cidade.delete(
+estado.delete(
 	'/:id/deletar',
 	celebrate({
 		[Segments.PARAMS]: paramsSchema,
 	}),
-	CidadeController.delete,
+	EstadoController.delete,
 );
 
-export default cidade;
+export default estado;

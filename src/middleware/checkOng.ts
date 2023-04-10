@@ -1,7 +1,7 @@
-import prisma from '@config/prisma';
-import { ErrorResponse } from 'src/shared/utils/ApiResponse';
+import prisma from '../config/prisma';
+import { ErrorResponse } from '../shared/utils/ApiResponse';
 import { NextFunction, Request, Response } from 'express';
-import ApiErrors from 'src/shared/errors/ApiErrors';
+import ApiErrors from '../shared/errors/ApiErrors';
 
 export const checkOng = async (
 	request: Request,

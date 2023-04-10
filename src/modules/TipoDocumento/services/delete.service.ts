@@ -1,7 +1,7 @@
-import prisma from '@config/prisma';
+import prisma from '../../../config/prisma';
 
 export const deleteTipoDocumento = async (
-	id: string,
+	id: number,
 ): Promise<void> => {
 
 	await prisma.tipoDocumento.delete({

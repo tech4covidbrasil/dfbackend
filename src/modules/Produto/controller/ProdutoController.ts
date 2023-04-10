@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { ErrorResponse, SuccessResponse } from 'src/shared/utils/ApiResponse';
+import { ErrorResponse, SuccessResponse } from '../../../shared/utils/ApiResponse';
 
 import {
 	createProduto,
@@ -21,7 +21,7 @@ class ProdutoController {
 	}
 	public async showById(request: Request, response: Response) {
 		try {
-			const getById = await getProdutoById(request.params.id);
+			const getById = await getProdutoById(Number(request.params.id));
 
 			SuccessResponse(response, 200, "Registros Encontrados.", getById)
 		} catch (error: any) {
@@ -42,7 +42,7 @@ class ProdutoController {
 		try {
 			const produtoUpdate = await updateProduto(
 				request.body,
-				request.params.id,
+				Number(request.params.id),
 			);
 			SuccessResponse(response, 202, "Atualizado.", produtoUpdate)
 		} catch (error: any) {
@@ -51,7 +51,7 @@ class ProdutoController {
 	}
 	public async delete(request: Request, response: Response) {
 		try {
-			await deleteProduto(request.params.id);
+			await deleteProduto(Number(request.params.id));
 
 			SuccessResponse(response, 204, "Atualizado.")
 		} catch (error: any) {

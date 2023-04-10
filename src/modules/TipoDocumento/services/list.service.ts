@@ -1,9 +1,5 @@
-import prisma from '@config/prisma';
-
-interface ITipoDocumento {
-	id: string;
-	docNome: string;
-};
+import prisma from '../../../config/prisma';
+import { ITipoDocumento } from '../../../shared/interfaces';
 
 export const listTipoDocumento = async (): Promise<ITipoDocumento[]> => {
 	return await prisma.tipoDocumento.findMany()

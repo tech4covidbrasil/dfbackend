@@ -1,12 +1,5 @@
-import prisma from '@config/prisma';
-
-interface IDoacao {
-	usuarioId: string;
-	campanhaId: string;
-	produtoId: number;
-	quantidadeDoada: number;
-	isValidated: boolean;
-}
+import prisma from '../../../config/prisma';
+import { IDoacao } from '../../../shared/interfaces';
 
 type IDoacaoOmitId = Omit<IDoacao, 'id'>;
 
@@ -16,7 +9,7 @@ export const createDoacao = async ({
 	produtoId,
 	quantidadeDoada,
 	isValidated,
-}: IDoacaoOmitId): Promise<void> => {
+}: IDoacaoOmitId): Promise<IDoacao> => {
 
 	return await prisma.doacao.create({
 		data: {

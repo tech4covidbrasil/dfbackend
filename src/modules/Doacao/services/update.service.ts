@@ -1,12 +1,5 @@
-import prisma from '@config/prisma';
-
-interface IDoacao {
-	usuarioId: string;
-	campanhaId: string;
-	produtoId: string;
-	quantidadeDoada: number;
-	isValidated: boolean;
-}
+import prisma from '../../../config/prisma';
+import { IDoacao } from '../../../shared/interfaces';
 
 type IDoacaoOmitId = Omit<IDoacao, 'id'>;
 

@@ -1,10 +1,6 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-
-interface IHistoricoUsuario {
-	usuarioId: string;
-	descricao: string;
-}
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { IHistoricoUsuario } from '../../../shared/interfaces';
 
 export const gethistoricoUsuarioById = async (
 	id: string,
