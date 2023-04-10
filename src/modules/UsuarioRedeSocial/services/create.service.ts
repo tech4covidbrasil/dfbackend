@@ -1,6 +1,6 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-import { IUsuarioRedeSocial } from 'src/shared/interfaces';
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { IUsuarioRedeSocial } from '../../../shared/interfaces';
 
 type IUsuarioRedeSocialOmitId = Omit<IUsuarioRedeSocial, 'id'>;
 

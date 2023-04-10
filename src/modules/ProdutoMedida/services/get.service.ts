@@ -1,7 +1,7 @@
-import prisma from '@config/prisma';
-import { IProdutoMedida } from 'src/shared/interfaces';
+import prisma from '../../../config/prisma';
+import { IProdutoMedida } from '../../../shared/interfaces';
 
-import ApiErrors from 'src/shared/errors/ApiErrors';
+import ApiErrors from '../../../shared/errors/ApiErrors';
 
 export const getProdutoMedidaById = async (
 	id: string,

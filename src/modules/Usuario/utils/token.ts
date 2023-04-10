@@ -1,6 +1,6 @@
 import { NextFunction, Request } from 'express';
 
-import ApiErrors from 'src/shared/errors/ApiErrors';
+import ApiErrors from '../../../shared/errors/ApiErrors';
 import jwt from 'jsonwebtoken';
 
 export const geradorToken = (params = {}): string => {

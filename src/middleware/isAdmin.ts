@@ -1,8 +1,8 @@
 
-import prisma from '@config/prisma'
+import prisma from '../config/prisma'
 import {NextFunction, Request, Response} from 'express'
-import ApiErrors from 'src/shared/errors/ApiErrors'
-import { ErrorResponse } from 'src/shared/utils/ApiResponse'
+import ApiErrors from '../shared/errors/ApiErrors'
+import { ErrorResponse } from '../shared/utils/ApiResponse'
 
 export const isAdmin = async (request: Request, response: Response, next: NextFunction) => {
 	console.log(`AdminID: ${request.id}`)

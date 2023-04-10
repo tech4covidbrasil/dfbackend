@@ -1,16 +1,12 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-
-interface ITipoDocumento {
-	id: string;
-	docNome: string;
-};
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { ITipoDocumento } from '../../../shared/interfaces';
 
 type ITipoDocumentoOmitId = Omit<ITipoDocumento, 'id'>;
 
 export const updateTipoDocumento = async ({
 	docNome
-}: ITipoDocumentoOmitId, id: string, ): Promise<ITipoDocumento> => {
+}: ITipoDocumentoOmitId, id: number, ): Promise<ITipoDocumento> => {
 
 	const tipoDocumento = await prisma.tipoDocumento.findUnique({
 		where: {
@@ -26,7 +22,7 @@ export const updateTipoDocumento = async ({
 		}
 	})
 
-	if(tipoDocumentoExists && docNome !== tipoDocumento.nome) throw new ApiErrors("Tipo de documento já cadastrado com esse nome.")
+	if(tipoDocumentoExists && docNome !== tipoDocumento.docNome) throw new ApiErrors("Tipo de documento já cadastrado com esse nome.")
 
 	return prisma.tipoDocumento.update({
 		where: {

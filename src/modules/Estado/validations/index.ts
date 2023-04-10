@@ -1,12 +1,12 @@
-import { Joi } from 'celebrate';
+import {Joi} from 'celebrate';
 
 export const bodySchema = Joi.object().keys({
-	nome: Joi.string().min(3).message("Nome deve conter no minímo 3 caracteres"),
-	abreviacao: Joi.string().max(2).message("Abreviação deve ter no máximo 2 caracteres"),
+	nome: Joi.string().min(3),
+	abreviacao: Joi.string().max(2)
 })
 .options({ abortEarly: false });
 
 export const paramsSchema = Joi.object().keys({
-	id: Joi.number().message("Informe um ID válido")
+	id: Joi.number()
 })
 .options({ abortEarly: false });

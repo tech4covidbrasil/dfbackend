@@ -1,12 +1,12 @@
-import EtherealMail from '@config/mail/EtherealMail';
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-import { IUsuario } from 'src/shared/interfaces';
+import EtherealMail from '../../../config/mail/EtherealMail';
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { IUsuario } from '../../../shared/interfaces';
 import { cryptPwd } from '../utils/password';
 import { validaEmail, validaNome } from '../utils/validaUsuario';
 import path from 'path';
-import SESMail from '@config/mail/SESMail';
-import mailConfig from '@config/mail/email';
+import SESMail from '../../../config/mail/SESMail';
+import mailConfig from '../../../config/mail/email';
 
 type IUsuarioOmitId = Omit<
 	IUsuario,

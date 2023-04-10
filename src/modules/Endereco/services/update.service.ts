@@ -1,5 +1,5 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
 
 interface IEndereco {
 	ddd: string;

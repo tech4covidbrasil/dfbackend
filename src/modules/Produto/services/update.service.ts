@@ -1,6 +1,6 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-import { IProduto } from 'src/shared/interfaces';
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { IProduto } from '../../../shared/interfaces';
 
 type IProdutoOmitId = Omit<IProduto, 'id'>;
 

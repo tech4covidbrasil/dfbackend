@@ -1,5 +1,5 @@
-import prisma from '@config/prisma';
-import { IProdutoMedida } from 'src/shared/interfaces';
+import prisma from '../../../config/prisma';
+import { IProdutoMedida } from '../../../shared/interfaces';
 
 type IProdutoMedidaOmitId = Omit<IProdutoMedida, 'id'>;
 

@@ -1,14 +1,14 @@
-import prisma from '@config/prisma';
+import prisma from '../../../config/prisma';
 import crypto from 'crypto';
 
 import path from 'path';
 
 import { cryptPwd } from '../utils/password';
 import { getUsuarioById } from './get.service';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-import EtherealMail from '@config/mail/EtherealMail';
-import SESMail from '@config/mail/SESMail';
-import mailConfig from '@config/mail/email'
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import EtherealMail from '../../../config/mail/EtherealMail';
+import SESMail from '../../../config/mail/SESMail';
+import mailConfig from '../../../config/mail/email'
 
 /**
  * method: POST

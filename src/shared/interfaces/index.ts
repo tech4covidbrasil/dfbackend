@@ -11,25 +11,16 @@ export interface IUsuario {
 	isValidated?: boolean | null;
 }
 
-export interface ILogin {
-	email: string;
-	senha: string;
-}
-
-export interface IPasswordRecover {
-	email: string;
-}
-
 export interface IDocumento {
 	id: string;
 	dataNascimento: string;
 	documentoValor: string;
 	usuarioId: string;
-	tipoDocumentoId: string;
+	tipoDocumentoId: number;
 }
 
 export interface ITipoDocumento {
-	id: string;
+	id: number;
 	docNome: string;
 }
 
@@ -70,14 +61,13 @@ export interface IDoacao {
 	id: string;
 	usuarioId: string;
 	campanhaId: string;
-	produtoId: string;
+	produtoId: number;
 	quantidadeDoada: number;
 	isValidated: boolean;
 }
 
 export interface ICampanha {
 	id: string;
-	usuarioId: string;
 	nome: string;
 	cidadeCampanha: string;
 	estadoCampanha: string;
@@ -87,10 +77,11 @@ export interface ICampanha {
 	dataTerminoCampanha: Date;
 	isValidated: boolean;
 	isActive: boolean;
+	usuarioId: string;
 }
 
-export interface UnidadeMedida {
-	id: string;
+export interface IUnidadeMedida {
+	id: number;
 	nome: string;
 	abreviacao: string;
 }
@@ -98,14 +89,6 @@ export interface UnidadeMedida {
 export interface IProduto {
 	id: number;
 	nome: string;
-}
-
-export interface IProdutoCampanhaDoacao {
-	id: string;
-	produtoId: string;
-	campanhaId: string;
-	doacaoId: string;
-	quantidadeDoada: number;
 }
 
 export interface IHistoricoUsuario {
@@ -116,20 +99,27 @@ export interface IHistoricoUsuario {
 
 export interface IProdutoMedida {
 	id: string;
-	produtoId: string;
-	unidadeMedidaId: string;
+	produtoId: number;
+	unidadeMedidaId: number;
 }
 
-export interface IUsuarioRoles {
-	id: string;
-	usuarioId: string;
-	rolesId: string;
+
+export interface IEstados {
+	id: number,
+	nome: string,
+	abreviacao: string;
 }
 
 export interface ICidade {
 	id: number;
 	nome: string;
 };
+
+export interface ICampanhaFavorita {
+	id: string;
+	usuarioId: string;
+	campanhaId: string;
+}
 
 export interface IRedeSocial {
 	id: number;
@@ -142,3 +132,24 @@ export interface IUsuarioRedeSocial {
 	usuarioId: string;
 	redeSocialId: number
 };
+
+export interface ILogin {
+	email: string;
+	senha: string;
+}
+
+export interface IPasswordRecover {
+	email: string;
+}
+
+export interface IUsuarioRoles {
+	id: string;
+	usuarioId: string;
+	rolesId: string;
+}
+
+
+
+
+
+

@@ -1,11 +1,10 @@
-import prisma from '@config/prisma';
-import { ICampanha } from 'src/shared/interfaces';
+import prisma from '../../../config/prisma';
+import { ICampanha } from '../../../shared/interfaces';
 
 type ICampanhaOmitId = Omit<ICampanha, 'id'>;
 
 export const updateCampanha = async (
 	{
-		usuarioId,
 		nome,
 		cidadeCampanha,
 		estadoCampanha,
@@ -15,6 +14,7 @@ export const updateCampanha = async (
 		dataTerminoCampanha,
 		isValidated,
 		isActive,
+		usuarioId
 	}: ICampanhaOmitId,
 	id: string,
 ): Promise<ICampanha> => {
@@ -24,7 +24,6 @@ export const updateCampanha = async (
 			id,
 		},
 		data: {
-			usuarioId,
 			nome,
 			cidadeCampanha,
 			estadoCampanha,
@@ -34,6 +33,7 @@ export const updateCampanha = async (
 			dataTerminoCampanha,
 			isValidated,
 			isActive,
+			usuarioId
 		},
 	});
 };

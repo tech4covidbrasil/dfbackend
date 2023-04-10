@@ -1,10 +1,6 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-
-interface ITipoDocumento {
-	id: number;
-	docNome: string;
-};
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { ITipoDocumento } from '../../../shared/interfaces';
 
 type TipoDocumentoOmitId = Omit<ITipoDocumento, 'id'>;
 

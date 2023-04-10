@@ -1,15 +1,10 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-
-interface UnidadeMedida {
-	id: string;
-	nome: string;
-	abreviacao: string;
-};
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { IUnidadeMedida } from '../../../shared/interfaces';
 
 export const getUnidadeMedidaById = async (
-	id: string,
-): Promise<UnidadeMedida> => {
+	id: number,
+): Promise<IUnidadeMedida> => {
 	const uMedida = await prisma.unidadeMedida.findUnique({
 		where: {
 			id,

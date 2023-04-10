@@ -1,31 +1,32 @@
-import prisma from '@config/prisma';
-
-import { ICampanha } from 'src/shared/interfaces';
+import prisma from '../../../config/prisma';
+import { ICampanha } from '../../../shared/interfaces';
 
 type ICampanhaOmit = Omit<ICampanha, 'id'>;
 
 export const createCampanha = async ({
-	usuarioId,
 	nome,
 	cidadeCampanha,
 	estadoCampanha,
 	tipoArrecadacao,
 	descricao,
+	dataCriacaoCampanha,
 	dataTerminoCampanha,
 	isValidated,
 	isActive,
+	usuarioId
 }: ICampanhaOmit): Promise<ICampanha> => {
 	return prisma.campanha.create({
 		data: {
-			usuarioId,
 			nome,
 			cidadeCampanha,
 			estadoCampanha,
 			tipoArrecadacao,
 			descricao,
+			dataCriacaoCampanha,
 			dataTerminoCampanha,
 			isValidated,
 			isActive,
+			usuarioId
 		},
 	});
 };

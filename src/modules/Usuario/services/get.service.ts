@@ -1,6 +1,6 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-import { IUsuario } from 'src/shared/interfaces';
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { IUsuario } from '../../../shared/interfaces';
 
 export const getUsuarioById = async (id: string): Promise<IUsuario> => {
 	const usuario = await prisma.usuario.findUnique({

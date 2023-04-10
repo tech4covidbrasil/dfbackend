@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import aws from 'aws-sdk';
 import handlebarsMailTemplate from './HandlebarsMailTemplate';
-import mailConfig from '@config/mail/email'
+import mailConfig from '../mail/email'
 
 interface IMailContato {
 	nome: string;

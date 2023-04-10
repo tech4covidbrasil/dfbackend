@@ -1,16 +1,6 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-
-interface ILandingPage {
-	id: string;
-	nome: string;
-	email: string,
-	telefone: string;
-	cidade: string;
-	estado: string;
-	tipoLead: string;
-	termosAceitos: boolean;
-}
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { ILandingPage } from '../../../shared/interfaces';
 
 type LandingPageOmitId = Omit<ILandingPage, 'id'>;
 

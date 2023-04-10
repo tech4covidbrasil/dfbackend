@@ -1,5 +1,5 @@
-import prisma from '@config/prisma';
-import { IHistoricoUsuario } from 'src/shared/interfaces';
+import prisma from '../../../config/prisma';
+import { IHistoricoUsuario } from '../../../shared/interfaces';
 
 type IHistoricoUsuarioOmitId = Omit<IHistoricoUsuario, 'id'>;
 

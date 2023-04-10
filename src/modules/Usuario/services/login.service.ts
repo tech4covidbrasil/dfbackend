@@ -1,5 +1,5 @@
-import ApiErrors from 'src/shared/errors/ApiErrors';
-import { IUsuario } from 'src/shared/interfaces';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { IUsuario } from '../../../shared/interfaces';
 import { decryptPwd } from '../utils/password';
 import { geradorToken } from '../utils/token';
 import { getUsuarioByEmail } from './get.service';

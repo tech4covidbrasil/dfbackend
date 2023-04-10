@@ -5,7 +5,6 @@ import { celebrate, Segments } from 'celebrate';
 import { bodySchema, paramsSchema } from '../validations';
 
 import FotoController from '../controller/FotoController';
-import { request } from 'http';
 
 const foto = Router();
 

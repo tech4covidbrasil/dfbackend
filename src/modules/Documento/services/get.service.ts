@@ -1,7 +1,6 @@
-import prisma from '@config/prisma';
-import { IDocumento } from 'src/shared/interfaces';
-
-import ApiErrors from 'src/shared/errors/ApiErrors';
+import prisma from '../../../config/prisma';
+import { IDocumento } from '../../../shared/interfaces';
+import ApiErrors from '../../../shared/errors/ApiErrors';
 
 export const getDocumentoById = async (
 	id: string,

@@ -1,13 +1,9 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-
-interface ITipoDocumento {
-	id: string;
-	docNome: string;
-};
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { ITipoDocumento } from '../../../shared/interfaces';
 
 export const getTipoDocumentoById = async (
-	id: string,
+	id: number,
 ): Promise<ITipoDocumento> => {
 	const tipoDocumento = await prisma.tipoDocumento.findUnique({
 		where: {

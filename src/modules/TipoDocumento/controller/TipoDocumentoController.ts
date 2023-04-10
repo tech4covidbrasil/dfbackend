@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { ErrorResponse, SuccessResponse } from 'src/shared/utils/ApiResponse';
+import { ErrorResponse, SuccessResponse } from '../../../shared/utils/ApiResponse';
 
 import {
 	createTipoDocumento,
@@ -21,7 +21,7 @@ class TipoDocumentoController {
 	}
 	public async showById(request: Request, response: Response) {
 		try {
-			const getById = await getTipoDocumentoById(request.params.id);
+			const getById = await getTipoDocumentoById(Number(request.params.id));
 
 			SuccessResponse(response, 200, "Registros Encontrados.", getById)
 		} catch (error: any) {
@@ -42,7 +42,7 @@ class TipoDocumentoController {
 		try {
 			const tipoDocumentoUpdate = await updateTipoDocumento(
 				request.body,
-				request.params.id,
+				Number(request.params.id),
 			);
 			SuccessResponse(response, 202, "Atualizado.", tipoDocumentoUpdate)
 		} catch (error: any) {
@@ -51,7 +51,7 @@ class TipoDocumentoController {
 	}
 	public async delete(request: Request, response: Response) {
 		try {
-			await deleteTipoDocumento(request.params.id);
+			await deleteTipoDocumento(Number(request.params.id));
 
 			SuccessResponse(response, 204, "Atualizado.")
 		} catch (error: any) {

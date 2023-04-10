@@ -1,6 +1,6 @@
-import prisma from '@config/prisma';
-import ApiErrors from 'src/shared/errors/ApiErrors';
-import { IRedeSocial } from 'src/shared/interfaces';
+import prisma from '../../../config/prisma';
+import ApiErrors from '../../../shared/errors/ApiErrors';
+import { IRedeSocial } from '../../../shared/interfaces';
 
 export const getRedeSocialById = async (
 	id: number,

@@ -1,5 +1,4 @@
-import { Joi } from 'celebrate';
-
+import {Joi} from 'celebrate';
 // const passwordPattern
 
 // Criar 2 Validações? Uma para registro e uma para UPDATE?

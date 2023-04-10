@@ -3,9 +3,6 @@ import { bodySchema, paramsSchema } from '../validations';
 
 import TipoDocumentoController from '../controller/TipoDocumentoController';
 import { Response, Router } from 'express';
-// import { verificaAutenticacaoUsuario } from 'src/middleware/checkAuthentication';
-// import { checkOng } from 'src/middleware/checkOng';
-// import { isAdmin } from 'src/middleware/isAdmin';
 
 const tipoDocumento = Router();
 
