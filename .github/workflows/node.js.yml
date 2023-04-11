@@ -41,4 +41,4 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - run: npm ci
     - run: npx tsx
-    # - run: pm2 restart api
+    - run: pm2 restart api
