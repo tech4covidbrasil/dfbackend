@@ -24,18 +24,17 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - name: Instalando Dependencias
+      run: npm install
 
-		- name: Instalando Dependencias
-		run: npm install
+    - name: Construindo Projeto (Build)
+      run: npm run build
 
-		- name: Construindo Projeto (Build)
-		run: npm run build
-
-		- name: Gerando Artefato (Dist)
-		uses: actions/upload-artifact@v3
-		with:
-			name: dist
-			path: dist
+    - name: Gerando Artefato (Dist)
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist
 
   deploy:
     needs: build
