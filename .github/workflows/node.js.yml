@@ -24,6 +24,21 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+      env:
+        PORT: ${{ secrets.PORT }}
+        BASE_URL: ${{ secrets.BASE_URL }}
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        SECRET: ${{ secrets.SECRET }}
+        JWT_EXPIRE: ${{ secrets.JWT_EXPIRE }}
+        EXPIRESIN: ${{ secrets.EXPIRESIN }}
+        SALT: ${{ secrets.SALT }}
+        MAX_SIZE: ${{ secrets.MAX_SIZE }}
+        SESSIONSECRET: ${{ secrets.SESSIONSECRET }}
+        SESSIONTIME: ${{ secrets.SESSIONTIME }}
+        EMAIL_DRIVER: ${{ secrets.EMAIL_DRIVER }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - run: npm ci
-    - run: npm run build --if-present
+    - run: npx tsx
     - run: pm2 restart api
