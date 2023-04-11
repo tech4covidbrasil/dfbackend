@@ -52,7 +52,7 @@ jobs:
         path: dist
 
     - name: Variaveis de Ambiente
-	  run: |
+      run: |
         export PORT=${{ secrets.PORT }}
     - run: npm ci
     # - run: pm2 restart api
