@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-
+  
     runs-on: ubuntu-latest
 
     strategy:
@@ -35,21 +35,21 @@ jobs:
       with:
         name: dist
         path: dist
-
+  
   deploy:
     needs: build
-
-	runs-on: self-hosted
+    runs-on: self-hosted
 
     strategy:
       matrix:
         node-version: [16.x]
 
-	- name: Download Artefato (Dist)
-	  uses: actions/download-artifact@v3
-	  with:
-	  	name: dist
-		path: dist
+    steps:
+    - name: Download Artefato
+      uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist
 
     - run: npm ci
     # - run: pm2 restart api
