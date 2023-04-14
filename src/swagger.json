@@ -1,0 +1,452 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Api Doar Faz Bem",
+		"description": "",
+		"termsOfService": "",
+		"contact": {
+			"email": "doarbem@doarbem.com.br"
+		},
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3000/api",
+			"description": "Desenvolvimento"
+		},
+		{
+			"url": "https://api.doarbem.com.br",
+			"description": "Produção"
+		}
+	],
+	"paths": {
+		"/cidade": {
+			"post": {
+				"summary": "Cadastrar Cidade.",
+				"description": "Esta rota cria uma cidade.",
+				"tags": ["cidades"],
+				"security": [{ "bearerAuth": [] }],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Cidade"
+							},
+							"examples": {
+								"Cidade Teste 01": {
+									"value": {
+										"nome": "Ilhéus"
+									}
+								},
+								"Cidade Teste 02": {
+									"value": {
+										"nome": "Brasilia"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Cidade"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Criado com sucesso"
+					},
+					"400": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"Campanha": {},
+			"CampanhaFavorita": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"usuarioId": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"campanhaId": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"Cidade": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "number"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"CidadesEstado": {
+						"properties": {
+							"id": {
+								"type": "number"
+							},
+							"cidadesId": {
+								"type": "string"
+							},
+							"estadosId": {
+								"type": "string"
+							},
+							"created_at": {
+								"type": "string",
+								"format": "date-time"
+							},
+							"updated_at": {
+								"type": "string",
+								"format": "date-time"
+							}
+						}
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"Doacao": {},
+			"Documento": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"dataNascimento": {
+						"type": "string"
+					},
+					"documentoValor": {
+						"type": "string"
+					},
+					"usuarioId": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"tipoDocumentoId": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"Endereco": {},
+			"Estado": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "number"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"abreviacao": {
+						"type": "string"
+					},
+					"CidadesEstado": {
+						"properties": {
+							"id": {
+								"type": "number"
+							},
+							"cidadesId": {
+								"type": "string"
+							},
+							"estadosId": {
+								"type": "string"
+							},
+							"created_at": {
+								"type": "string",
+								"format": "date-time"
+							},
+							"updated_at": {
+								"type": "string",
+								"format": "date-time"
+							}
+						}
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"Foto": {},
+			"HistoricoUsuario": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"usuarioId": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"LandingPage": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"telefone": {
+						"type": "string"
+					},
+					"cidade": {
+						"type": "string"
+					},
+					"estado": {
+						"type": "string"
+					},
+					"tipoLead": {
+						"type": "string"
+					},
+					"termosAceitos": {
+						"type": "boolean",
+						"default": false
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"Produto": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "number"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"Doacao": {},
+					"ProdutoMedida": {
+						"properties": {
+							"id": {
+								"type": "string",
+								"format": "uuid"
+							},
+							"produtoId": {
+								"type": "number"
+							},
+							"unidadeMedidaId": {
+								"type": "number"
+							},
+							"created_at": {
+								"type": "string",
+								"format": "date-time"
+							},
+							"updated_at": {
+								"type": "string",
+								"format": "date-time"
+							}
+						}
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"ProdutoMedida": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"produtoId": {
+						"type": "number"
+					},
+					"unidadeMedidaId": {
+						"type": "number"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"RedeSocial": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "number"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"unidadeMedidaId": {
+						"type": "number"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"TipoDocumento": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"docNome": {
+						"type": "string"
+					},
+					"Documento": {
+						"properties": {
+							"id": {
+								"type": "string",
+								"format": "uuid"
+							},
+							"dataNascimento": {
+								"type": "string"
+							},
+							"documentoValor": {
+								"type": "string"
+							},
+							"created_at": {
+								"type": "string",
+								"format": "date-time"
+							},
+							"updated_at": {
+								"type": "string",
+								"format": "date-time"
+							}
+						}
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"UnidadeMedida": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "number"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"abreviacao": {
+						"type": "string"
+					},
+					"ProdutoMedida": {
+						"properties": {
+							"id": {
+								"type": "string",
+								"format": "uuid"
+							},
+							"produtoId": {
+								"type": "number"
+							},
+							"unidadeMedidaId": {
+								"type": "number"
+							},
+							"created_at": {
+								"type": "string",
+								"format": "date-time"
+							},
+							"updated_at": {
+								"type": "string",
+								"format": "date-time"
+							}
+						}
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"Usuario": {},
+			"UsuarioRedeSocial": {}
+		},
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}
