@@ -3,6 +3,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 import * as dotenv from 'dotenv';
 import routes from '../routes';
+import swaggerUi from 'swagger-ui-express'
+import swaggerDoc from '../../swagger.json'
 
 import ApiErrors from '../errors/ApiErrors';
 import { errors } from 'celebrate';
@@ -15,6 +17,9 @@ app.use(cors({ origin: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
+
+//Middleware Swagger
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
 // Rotas
 app.get('/', (request, response) => {
