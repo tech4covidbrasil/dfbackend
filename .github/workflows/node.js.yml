@@ -55,4 +55,4 @@ jobs:
       run: |
         export PORT=${{ secrets.PORT }}
     - run: npm ci
-    # - run: pm2 restart api
+    - run: pm2 restart dfbapi
