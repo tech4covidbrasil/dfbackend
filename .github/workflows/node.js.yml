@@ -46,7 +46,7 @@ jobs:
 
     steps:
     - name: Copiando Projeto
-      uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v3
       with:
         name: dist
         path: dist
