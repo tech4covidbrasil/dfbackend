@@ -45,11 +45,14 @@ jobs:
         node-version: [16.x]
 
     steps:
-    - name: Download Artefato      
+    - name: Download Artefato
       uses: actions/download-artifact@v3
       with:
         name: dist
         path: dist
 
+    - name: Variaveis de Ambiente
+      run: |
+        export PORT=${{ secrets.PORT }}
     - run: npm ci
     - run: pm2 restart dfbapi
