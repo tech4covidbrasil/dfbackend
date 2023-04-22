@@ -11,7 +11,7 @@
 	},
 	"servers": [
 		{
-			"url": "http://localhost:3000/api",
+			"url": "http://localhost:3330",
 			"description": "Desenvolvimento"
 		},
 		{
@@ -20,27 +20,36 @@
 		}
 	],
 	"paths": {
-		"/cidade": {
+		"/campanha": {
 			"post": {
-				"summary": "Cadastrar Cidade.",
-				"description": "Esta rota cria uma cidade.",
-				"tags": ["cidades"],
-				"security": [{ "bearerAuth": [] }],
+				"summary": "Cadastrar Campanha",
+				"description": "Uma campanha não pode ser criada por um perfil de usuário que não é ONG",
+				"tags": ["Campanha"],
 				"requestBody": {
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Cidade"
+								"$ref": "#/components/schemas/Campanha"
 							},
 							"examples": {
-								"Cidade Teste 01": {
+								"Campanha 01": {
 									"value": {
-										"nome": "Ilhéus"
-									}
-								},
-								"Cidade Teste 02": {
-									"value": {
-										"nome": "Brasilia"
+										"nome": "Campanha do Agasalho",
+										"descricao": "Arrecadação de Agasalho Inverno 2023",
+										"cepCampanha": "",
+										"ruaCampanha": "",
+										"numeroRuaCampanha": "",
+										"complementoCampanha": "",
+										"bairroCampanha": "",
+										"cidadeCampanha": "Mococa",
+										"estadoCampanha": "SP",
+										"tipoArrecadacao": "",
+										"metaItensArrecadados": "",
+										"dataCriacaoCampanha": "",
+										"dataTerminoCampanha": "",
+										"isValidated": "",
+										"isActive": "",
+										"usuarioId": ""
 									}
 								}
 							}
@@ -48,8 +57,389 @@
 					}
 				},
 				"responses": {
+					"201": {
+						"description": "201 CREATED",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Campanha"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Somente ONG's podem criar campanhas"
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			},
+			"get": {
+				"summary": "Exibe todas campanhas cadastradas",
+				"description": "Busca e exibe todas campanhas cadastradas para o usuário logado.",
+				"tags": ["Campanha"],
+				"responses": {
 					"200": {
-						"description": "OK",
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Campanha"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Campanhas não encontradas"
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/campanha/filtro" :{
+			"get": {
+				"summary": "Filtrar campanhas baseado em um filtro.",
+				"description": "Retornará todas as campanhas baseado no filtro informado, Cidade, Estado e/ou Tipo de Arrecadação.",
+				"tags": ["Campanha"],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "estado",
+						"description": "Sigla do Estado",
+						"required": false
+					},
+					{
+						"in": "query",
+						"name": "cidade",
+						"description": "Nome da Cidade",
+						"required": false
+					},
+					{
+						"in": "query",
+						"name": "tipo_arrecadacao",
+						"description": "Tipo de Arrecadação",
+						"required": false
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Campanhas"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Campanhas não encontradas"
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/campanha/ativas" :{
+			"get": {
+				"summary": "Busca todas as campanhas ativas de um usuário.",
+				"description": "Retornará todas as campanhas ativas de um usuário, validadas pela equipe administrativa.",
+				"tags": ["Campanha"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "usuarioId",
+						"description": "Id do Usuário",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Campanhas"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Campanhas não encontradas"
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/campanha/{campanhaId}": {
+			"get": {
+				"summary": "Exibe uma campanha por ID",
+				"description": "Irá listar todas as informações de uma campanha, apartir de um ID",
+				"tags": ["Campanha"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "campanhaId",
+						"description": "Id do Campanha",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Campanhas"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Campanhas não encontradas"
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/campanha/{campanhaId}/editar": {
+			"put": {
+				"summary": "Edita as informações de uma campanha.",
+				"description": "Liste todas as campanhas, obtenha o ID para poder edita-la.",
+				"tags": ["Campanha"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "campanhaId",
+						"description": "ID do campanha cadastrada",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Campanha atualizada"
+					},
+					"404": {
+						"description": "Campanha não encontrado"
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/campanha/{campanhaId}/deletar": {
+			"delete": {
+				"summary": "Deleta uma campanha",
+				"description": "Liste todas as campanhas, obtenha o ID para poder deleta-la.",
+				"tags": ["Campanha"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "campanhaId",
+						"description": "ID do Campanha",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK"
+					},
+					"404": {
+						"description": "Campanha não encontrado"
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/campanha-favorita": {
+			"post": {
+				"summary": "Dar like em uma campanha.",
+				"description": "O usuário, desde que esteja logado na plataforma, poderá clicar e favoritar uma campanha.",
+				"tags": ["Campanha Favorita"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CampanhaFavorita"
+							},
+							"examples": {
+								"Campanha Agasalho - Dar Like": {
+									"value": {
+										"usuarioId": "",
+										"campanhaId": ""
+									}
+								},
+								"Campanha Cesta Básica - Dar Like": {
+									"value": {
+										"usuarioId": "",
+										"campanhaId": ""
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "201 CREATED",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/CampanhaFavorita"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Usuário precisa estar logado para curtir esta campanha."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			},
+			"get": {
+				"summary": "Exibe todas as campanhas favoritadas por um usuário",
+				"description": "O usuário, desde que esteja logado na plataforma, poderá visualizar as suas campanhas favoritas.",
+				"tags": ["Campanha Favorita"],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/CampanhaFavorita"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhuma campanha encontrada."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/campanha-favorita/{campanhaId}": {
+			"get": {
+				"summary": "Exibe as informações de uma campanha favoritada.",
+				"description": "O usuário, desde que esteja logado na plataforma, poderá clicar e visualizar as informações da campanha que favoritou.",
+				"tags": ["Campanha Favorita"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "usuarioId",
+						"description": "Id do Usuario logado.",
+						"required": true
+					},
+					{
+						"in": "path",
+						"name": "campanhaId",
+						"description": "Id do Campanha.",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/CampanhaFavorita"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhuma campanha encontrada."
+					},
+					"500": {
+						"description": "Ocorreu um erro."
+					}
+				}
+			}
+		},
+		"/campanha-favorita/{campanhaId}/deletar": {
+			"delete": {
+				"summary": "Tira o like de uma campanha.",
+				"description": "O usuário, desde que esteja logado na plataforma, poderá clicar e desfavoritar uma campanha.",
+				"tags": ["Campanha Favorita"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "campanhaId",
+						"description": "ID do Campanha",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK"
+					},
+					"404": {
+						"description": "Campanha não encontrado"
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/cidade":{
+			"post": {
+				"summary": "Cadastra uma Cidade",
+				"description": "Usuário precisa ser administrador para realizar essa atividade.",
+				"tags": ["Cidade"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Cidade"
+							},
+							"examples": {
+								"Cidade - Agulhas": {
+									"value": {
+										"nome": "Agulhas"
+									}
+								},
+								"Cidade - Gramado": {
+									"value": {
+										"nome": "Gramado"
+									}
+								},
+								"Cidade - Goiânia": {
+									"value": {
+										"nome": "Goiânia"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "201 CREATED",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -59,10 +449,1028 @@
 							}
 						}
 					},
-					"201": {
-						"description": "Criado com sucesso"
+					"401": {
+						"description": "Somente usuários administradores estão autorizados a cadastrar cidades."
 					},
-					"400": {
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			},
+			"get": {
+				"summary": "Exibe todas cidades cadastradas",
+				"description": "Busca e exibe todas cidades cadastradas.",
+				"tags": ["Cidade"],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Cidade"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhuma cidade encontrada."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/cidade/{cidadeId}": {
+			"get": {
+				"summary": "Exibe uma cidade por ID",
+				"description": "Irá listar as informações de uma cidade apartir do seu ID.",
+				"tags": ["Cidade"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "cidadeId",
+						"description": "Id do Cidade",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Cidade"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhuma cidade encontrada."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/cidade/{cidadeId}/editar": {
+			"put": {
+				"summary": "Edita as informações de uma cidade.",
+				"description": "Liste todas as cidades, obtenha o ID para poder edita-la.",
+				"tags": ["Cidade"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "cidadeId",
+						"description": "ID da cidade cadastrada",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Cidade atualizada"
+					},
+					"404": {
+						"description": "Cidade não encontrada"
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/cidade/{cidadeId}/deletar": {
+			"delete": {
+				"summary": "Deleta uma cidade",
+				"description": "Liste todas as cidades, obtenha o ID para poder deleta-la.",
+				"tags": ["Cidade"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "cidadeId",
+						"description": "ID da cidade",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK"
+					},
+					"404": {
+						"description": "Cidade não encontrada"
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/doacao":{
+			"post": {
+				"summary": "Cadastra uma Doação",
+				"description": "Usuário precisa estar logado para realizar essa atividade.",
+				"tags": ["Doacao"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Doacao"
+							},
+							"examples": {
+								"Campanha Agasalho": {
+									"value": {
+										"usuarioId": "",
+										"campanhaId": "",
+										"produtoId": "",
+										"quantidadeDoada": ""
+									}
+								},
+								"Campanha Cesta Básica": {
+									"value": {
+										"usuarioId": "",
+										"campanhaId": "",
+										"produtoId": "",
+										"quantidadeDoada": ""
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "201 CREATED",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Doacao"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Somente usuários logados estão autorizados a cadastrar uma doação."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			},
+			"get": {
+				"summary": "Exibe todas doações já realizadas",
+				"description": "Busca e exibe todas doações cadastradas.",
+				"tags": ["Doacao"],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Doacao"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhuma doação encontrada."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/doacao/{doacaoId}": {
+			"get": {
+				"summary": "Exibe as informações de uma doação, apartir de um ID",
+				"description": "Liste todas as doações do site para obter o ID de uma doação e obter suas informações.",
+				"tags": ["Doacao"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "doacaoId",
+						"description": "Id do Doação",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Doação"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhuma doação encontrada."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/doacao/{doacaoId}/editar": {
+			"put": {
+				"summary": "Edita as informações de uma doação.",
+				"description": "Liste todas as doações, obtenha o ID para poder edita-la.",
+				"tags": ["Doacao"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "doacaoId",
+						"description": "ID da doação cadastrada",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Doação atualizada"
+					},
+					"404": {
+						"description": "Doação não encontrada"
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/doacao/{doacaoId}/deletar": {
+			"delete": {
+				"summary": "Deleta uma doação",
+				"description": "Liste todas as doações, obtenha o ID para poder deleta-la.",
+				"tags": ["Doacao"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "doacaoId",
+						"description": "ID da doação",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK"
+					},
+					"404": {
+						"description": "Doação não encontrada"
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/documento":{
+			"post": {
+				"summary": "Cadastra uma Documento",
+				"description": "Usuário precisa estar logado para realizar essa atividade.",
+				"tags": ["Documento"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Documento"
+							},
+							"examples": {
+								"RG": {
+									"value": {
+										"dataNascimento": "",
+										"documentoValor": "",
+										"usuarioId": "",
+										"tipoDocumentoId": ""
+									}
+								},
+								"CNPJ": {
+									"value": {
+										"dataNascimento": "",
+										"documentoValor": "",
+										"usuarioId": "",
+										"tipoDocumentoId": ""
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "201 CREATED",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Documento"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Somente usuários logados estão autorizados a cadastrar um documento."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			},
+			"get": {
+				"summary": "Exibe todos documentos cadastrados na plataforma",
+				"description": "O usuário precisa estar logado e ser administrador para ter acesso a essa funcionalidade.",
+				"tags": ["Documento"],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Documento"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhum documento encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/documento/{documentoId}": {
+			"get": {
+				"summary": "Exibe as informações do documento do usuário.",
+				"description": "O usuário precisa estar logado para ver seu documento.",
+				"tags": ["Documento"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "documentoId",
+						"description": "Id do Documento",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Documento"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhum documento encontrada."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/documento/{documentoId}/editar": {
+			"put": {
+				"summary": "Edita as informações de um documento.",
+				"description": "O usuário precisa estar logado para poder editar seu documento.",
+				"tags": ["Documento"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "documentoId",
+						"description": "ID da documento cadastrado",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Documento atualizado."
+					},
+					"404": {
+						"description": "Documento não encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/documento/{documentoId}/deletar": {
+			"delete": {
+				"summary": "Deleta um documento.",
+				"description": "O usuário precisa estar logado e ser administrador para efetuar essa atividade.",
+				"tags": ["Documento"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "documentoId",
+						"description": "Id do Documento",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK"
+					},
+					"404": {
+						"description": "Documento não encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/endereco":{
+			"post": {
+				"summary": "Cadastra o endereço de um usuário",
+				"description": "Usuário precisa estar logado para realizar essa atividade.",
+				"tags": ["Endereco"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Endereco"
+							},
+							"examples": {
+								"Perfil 01": {
+									"value": {
+										"ddd": "",
+										"telefone": "",
+										"cep": "",
+										"endereco": "",
+										"numero": "",
+										"complemento": "",
+										"bairro": "",
+										"cidade": "",
+										"estado": "",
+										"usuarioId": ""
+									}
+								},
+								"Perfil 02": {
+									"value": {
+										"ddd": "",
+										"telefone": "",
+										"cep": "",
+										"endereco": "",
+										"numero": "",
+										"complemento": "",
+										"bairro": "",
+										"cidade": "",
+										"estado": "",
+										"usuarioId": ""
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "201 CREATED",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Endereco"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Somente usuários logados estão autorizados a cadastrar um endereço."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			},
+			"get": {
+				"summary": "Exibe todos documentos cadastrados na plataforma",
+				"description": "O usuário precisa estar logado e ser administrador para ter acesso a essa funcionalidade.",
+				"tags": ["Documento"],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Documento"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhum documento encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/endereco/{enderecoId}": {
+			"get": {
+				"summary": "Exibe as informações do endereço do usuário.",
+				"description": "O usuário precisa estar logado para ver seu endereço.",
+				"tags": ["Endereco"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "enderecoId",
+						"description": "Id do Endereço",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Endereco"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhum endereço encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/endereco/{enderecoId}/editar": {
+			"put": {
+				"summary": "Edita as informações do endereço do usuário.",
+				"description": "O usuário precisa estar logado para poder editar seu endereço.",
+				"tags": ["Endereco"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "enderecoId",
+						"description": "ID da endereço cadastrado",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Endereço atualizado."
+					},
+					"404": {
+						"description": "Endereço não encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/endereco/{enderecoId}/deletar": {
+			"delete": {
+				"summary": "Deleta o endereço do registro do usuário.",
+				"description": "O usuário precisa estar logado e ser administrador para efetuar essa atividade.",
+				"tags": ["Endereco"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "enderecoId",
+						"description": "Id do Endereço",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK"
+					},
+					"404": {
+						"description": "Endereço não encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/estado":{
+			"post": {
+				"summary": "Cadastra um endereço na plataforma",
+				"description": "Usuário precisa estar logado e ser adminstrador para realizar essa atividade.",
+				"tags": ["Estado"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Estado"
+							},
+							"examples": {
+								"SP": {
+									"value": {
+										"nome": "São Paulo",
+										"abreviacao": "SP"
+									}
+								},
+								"TO": {
+									"value": {
+										"nome": "Tocantins",
+										"abreviacao": "TO"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "201 CREATED",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Estado"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Somente administradores podem cadastrar estados na plataforma."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			},
+			"get": {
+				"summary": "Exibe todos estados cadastrados na plataforma",
+				"description": "O usuário precisa estar logado e ser administrador para ter acesso a essa funcionalidade.",
+				"tags": ["Estado"],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Estado"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhum estado encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/estado/{estadoId}": {
+			"get": {
+				"summary": "Exibe as informações de um estado na plataforma.",
+				"description": "O usuário precisa estar logado e ser administrador para ver todos estados cadastrados.",
+				"tags": ["Estado"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "estadoId",
+						"description": "Id do Estado",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Estado"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhum estado encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/estado/{estadoId}/editar": {
+			"put": {
+				"summary": "Edita as informações de um estado.",
+				"description": "O usuário precisa estar logado e ser administrador para poder editar um estado.",
+				"tags": ["Estado"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "estadoId",
+						"description": "ID da estado cadastrado",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Estado atualizado."
+					},
+					"404": {
+						"description": "Estado não encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/estado/{estadoId}/deletar": {
+			"delete": {
+				"summary": "Deleta estado na plataforma.",
+				"description": "O usuário precisa estar logado e ser administrador para efetuar essa atividade.",
+				"tags": ["Estado"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "estadoId",
+						"description": "Id do Estado",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK"
+					},
+					"404": {
+						"description": "Estado não encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"foto": {},
+		"/historico":{
+			"post": {
+				"summary": "Registra informações do que foi feito na plataforma.",
+				"description": "Toda atividade realizada na plataforma será registrada, como forma de log.",
+				"tags": ["HistoricoUsuario"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/HistoricoUsuario"
+							},
+							"examples": {
+								"Novo Cadastro": {
+									"value": {
+										"descricao": "Usuário se cadastrou.",
+										"usuarioId": ""
+									}
+								},
+								"Doação": {
+									"value": {
+										"descricao": "Usuário realizou uma nova doação.",
+										"usuarioId": ""
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "201 CREATED",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/HistoricoUsuario"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			},
+			"get": {
+				"summary": "Exibe o historico de todos os usuários cadastrados na plataforma",
+				"description": "O usuário precisa estar logado e ser administrador para ter acesso a essa funcionalidade.",
+				"tags": ["HistoricoUsuario"],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/HistoricoUsuario"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhum histórico encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/historico/{historicoId}": {
+			"get": {
+				"summary": "Exibe as informações do histórico de um usuário na plataforma.",
+				"description": "O usuário precisa estar logado e ser administrador para ver esta funcionalidade.",
+				"tags": ["HistoricoUsuario"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "historicoId",
+						"description": "Id do historico do usuário.",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/HistoricoUsuario"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhum resultado encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/landingpage":{
+			"post": {
+				"summary": "Cadastra um novo lead na plataforma",
+				"description": "O usuário não deve conseguir se cadastar mais de uma vez com o mesmo nome e email.",
+				"tags": ["LandingPage"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LandingPage"
+							},
+							"examples": {
+								"Jonas Alvarega Cabral": {
+									"value": {
+										"nome": "Jonas Alvarega Cabral",
+										"email": "jonas@gmail.com",
+										"telefone": "15956332200",
+										"cidade": "Pirapora",
+										"estado": "SP",
+										"tipoLead": "Doador",
+										"TermosAceitos": true
+									}
+								},
+								"Antonia Johanna D'Arc": {
+									"value": {
+										"nome": "Antonia Johanna D'Arc",
+										"email": "antoniadarc@gmail.com",
+										"telefone": "6732566278",
+										"cidade": "Brasilia",
+										"estado": "DF",
+										"tipoLead": "ONG",
+										"TermosAceitos": false
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "201 CREATED",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Estado"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Somente administradores podem cadastrar estados na plataforma."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			},
+			"get": {
+				"summary": "Exibe todos leads cadastrados na plataforma",
+				"description": "O usuário precisa estar logado e ser administrador para ter acesso a essa funcionalidade.",
+				"tags": ["LandingPage"],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/LandingPage"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhum resultado encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/landingpage/{landingpageId}": {
+			"get": {
+				"summary": "Exibe as informações de um lead na plataforma.",
+				"description": "O usuário precisa estar logado e ser administrador para ver todos leads cadastrados.",
+				"tags": ["LandingPage"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "landingpageId",
+						"description": "Id do lead",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/LandingPage"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Nenhum resultado encontrado."
+					},
+					"500": {
+						"description": "Ocorreu um erro"
+					}
+				}
+			}
+		},
+		"/landingpage/{landingpageId}/deletar": {
+			"delete": {
+				"summary": "Deleta um lead na plataforma.",
+				"description": "O usuário precisa estar logado e ser administrador para efetuar essa atividade.",
+				"tags": ["LandingPage"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "landingpageId",
+						"description": "Id do lead",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "200 OK"
+					},
+					"404": {
+						"description": "Registro não encontrado."
+					},
+					"500": {
 						"description": "Ocorreu um erro"
 					}
 				}
@@ -71,7 +1479,135 @@
 	},
 	"components": {
 		"schemas": {
-			"Campanha": {},
+			"Campanha": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"descricao": {
+						"type": "string"
+					},
+					"cepCampanha": {
+						"type": "string"
+					},
+					"ruaCampanha": {
+						"type": "string"
+					},
+					"numeroRuaCampanha": {
+						"type": "string"
+					},
+					"complementoCampanha": {
+						"type": "string"
+					},
+					"bairroCampanha": {
+						"type": "string"
+					},
+					"cidadeCampanha": {
+						"type": "string"
+					},
+					"estadoCampanha": {
+						"type": "string"
+					},
+					"tipoArrecadacao": {
+						"type": "string"
+					},
+					"metaItensArrecadados": {
+						"type": "string"
+					},
+					"dataCriacaoCampanha": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"dataTerminoCampanha": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"isValidated": {
+						"type": "boolean",
+						"default": false
+					},
+					"isActive": {
+						"type": "boolean",
+						"default": false
+					},
+					"usuarioId": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"Doacao": {
+						"properties": {
+							"id": {
+								"type": "string",
+								"format": "uuid"
+							},
+							"usuarioId": {
+								"type": "string",
+								"format": "uuid"
+							},
+							"campanhaId": {
+								"type": "string",
+								"format": "uuid"
+							},
+							"produtoId": {
+								"type": "string",
+								"format": "uuid"
+							},
+							"quantidadeDoada": {
+								"type": "number"
+							},
+							"isValidated": {
+								"type": "boolean",
+								"default": false
+							},
+							"created_at": {
+								"type": "string",
+								"format": "date-time"
+							},
+							"updated_at": {
+								"type": "string",
+								"format": "date-time"
+							}
+						}
+					},
+					"CampanhaFavorita": {
+						"properties": {
+							"id": {
+								"type": "string",
+								"format": "uuid"
+							},
+							"usuarioId": {
+								"type": "string",
+								"format": "uuid"
+							},
+							"campanhaId": {
+								"type": "string",
+								"format": "uuid"
+							},
+							"created_at": {
+								"type": "string",
+								"format": "date-time"
+							},
+							"updated_at": {
+								"type": "string",
+								"format": "date-time"
+							}
+						}
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
 			"CampanhaFavorita": {
 				"type": "object",
 				"properties": {
@@ -137,7 +1673,42 @@
 					}
 				}
 			},
-			"Doacao": {},
+			"Doacao": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"usuarioId": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"campanhaId": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"produtoId": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"quantidadeDoada": {
+						"type": "number"
+					},
+					"isValidated": {
+						"type": "boolean",
+						"default": false
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
 			"Documento": {
 				"type": "object",
 				"properties": {
@@ -169,7 +1740,54 @@
 					}
 				}
 			},
-			"Endereco": {},
+			"Endereco": {
+				"type":"object",
+				"properties":{
+					"id": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"ddd": {
+						"type": "string"
+					},
+					"telefone": {
+						"type": "string"
+					},
+					"cep": {
+						"type": "string"
+					},
+					"endereco": {
+						"type": "string"
+					},
+					"numero": {
+						"type": "number"
+					},
+					"complemento": {
+						"type": "string"
+					},
+					"bairro": {
+						"type": "string"
+					},
+					"cidade": {
+						"type": "string"
+					},
+					"estado": {
+						"type": "string"
+					},
+					"usuarioId": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
 			"Estado": {
 				"type": "object",
 				"properties": {
@@ -221,8 +1839,12 @@
 						"type": "string",
 						"format": "uuid"
 					},
-					"usuarioId": {
+					"descricao": {
 						"type": "string"
+					},
+					"usuarioId": {
+						"type": "string",
+						"format": "uuid"
 					},
 					"created_at": {
 						"type": "string",
