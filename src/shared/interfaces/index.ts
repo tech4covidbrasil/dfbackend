@@ -1,14 +1,41 @@
-export interface IUsuario {
+export interface ICampanha {
 	id: string;
+	nome: string,
+	descricao: string,
+	cepCampanha: string,
+	ruaCampanha: string
+	numeroRuaCampanha: string,
+	complementoCampanha?: string | null,
+	bairroCampanha: string,
+	cidadeCampanha: string,
+	estadoCampanha: string,
+	tipoArrecadacao: string,
+	metaItensArrecadados: string,
+	dataCriacaoCampanha: Date,
+	dataTerminoCampanha: Date,
+	isValidated: boolean,
+	isActive: boolean,
+	usuarioId: string
+}
+
+export interface ICampanhaFavorita {
+	id: string;
+	usuarioId: string;
+	campanhaId: string;
+}
+
+export interface ICidade {
+	id: number;
 	nome: string;
-	email: string;
-	senha: string;
-	senhaResetToken?: string | null;
-	senhaResetExpires?: Date | null;
-	tipoUsuario: string;
-	termos: boolean;
-	lgpd: boolean;
-	isValidated?: boolean | null;
+};
+
+export interface IDoacao {
+	id: string;
+	usuarioId: string;
+	campanhaId: string;
+	produtoId: number;
+	quantidadeDoada: number;
+	isValidated: boolean;
 }
 
 export interface IDocumento {
@@ -17,19 +44,6 @@ export interface IDocumento {
 	documentoValor: string;
 	usuarioId: string;
 	tipoDocumentoId: number;
-}
-
-export interface ITipoDocumento {
-	id: number;
-	docNome: string;
-}
-
-export interface IFoto {
-	//revisar
-	id: string;
-	foto_nome: string;
-	foto_path: string;
-	usuarioId: string;
 }
 
 export interface IEndereco {
@@ -46,6 +60,25 @@ export interface IEndereco {
 	usuarioId: string;
 }
 
+export interface IEstados {
+	id: number,
+	nome: string,
+	abreviacao: string;
+}
+
+export interface IFoto {
+	id: string;
+	foto_nome: string;
+	foto_path: string;
+	usuarioId: string;
+}
+
+export interface IHistoricoUsuario {
+	id: string;
+	usuarioId: string;
+	descricao: string;
+}
+
 export interface ILandingPage {
 	id: string;
 	nome: string;
@@ -57,44 +90,9 @@ export interface ILandingPage {
 	termosAceitos: boolean;
 }
 
-export interface IDoacao {
-	id: string;
-	usuarioId: string;
-	campanhaId: string;
-	produtoId: number;
-	quantidadeDoada: number;
-	isValidated: boolean;
-}
-
-export interface ICampanha {
-	id: string;
-	nome: string;
-	cidadeCampanha: string;
-	estadoCampanha: string;
-    tipoArrecadacao: string;
-	descricao: string;
-	dataCriacaoCampanha?: Date;
-	dataTerminoCampanha: Date;
-	isValidated: boolean;
-	isActive: boolean;
-	usuarioId: string;
-}
-
-export interface IUnidadeMedida {
-	id: number;
-	nome: string;
-	abreviacao: string;
-}
-
 export interface IProduto {
 	id: number;
 	nome: string;
-}
-
-export interface IHistoricoUsuario {
-	id: string;
-	usuarioId: string;
-	descricao: string;
 }
 
 export interface IProdutoMedida {
@@ -103,28 +101,34 @@ export interface IProdutoMedida {
 	unidadeMedidaId: number;
 }
 
-
-export interface IEstados {
-	id: number,
-	nome: string,
-	abreviacao: string;
-}
-
-export interface ICidade {
-	id: number;
-	nome: string;
-};
-
-export interface ICampanhaFavorita {
-	id: string;
-	usuarioId: string;
-	campanhaId: string;
-}
-
 export interface IRedeSocial {
 	id: number;
 	nome: string;
 };
+
+export interface ITipoDocumento {
+	id: number;
+	docNome: string;
+}
+
+export interface IUnidadeMedida {
+	id: number;
+	nome: string;
+	abreviacao: string;
+}
+
+export interface IUsuario {
+	id: string;
+	nome: string;
+	email: string;
+	senha: string;
+	senhaResetToken?: string | null;
+	senhaResetExpires?: Date | null;
+	tipoUsuario: string;
+	termos: boolean;
+	lgpd: boolean;
+	isValidated?: boolean | null;
+}
 
 export interface IUsuarioRedeSocial {
 	id: number;
@@ -132,6 +136,8 @@ export interface IUsuarioRedeSocial {
 	usuarioId: string;
 	redeSocialId: number
 };
+
+//
 
 export interface ILogin {
 	email: string;
