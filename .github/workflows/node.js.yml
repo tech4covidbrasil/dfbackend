@@ -52,7 +52,20 @@ jobs:
         path: dist
 
     - name: Variaveis de Ambiente
-      run: |
-        export PORT=${{ secrets.PORT }}
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
+        AWS_REGION: ${{ secrets.AWS_REGION}}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+        BASE_URL: ${{ secrets.BASE_URL}}
+        DATABASE_URL: ${{ secrets.DATABASE_URL}}
+        EMAIL_DRIVER: ${{ secrets.EMAIL_DRIVER}}
+        EXPIRESIN: ${{ secrets.EXPIRESIN}}
+        JWT_EXPIRE: ${{ secrets.JWT_EXPIRE}}
+        MAX_SIZE: ${{ secrets.MAX_SIZE}}
+        PORT: ${{ secrets.PORT}}
+        SALT: ${{ secrets.SALT}}
+        SECRET: ${{ secrets.SECRET}}
+        SESSIONSECRET: ${{ secrets.SESSIONSECRET}}
+        SESSIONTIME: ${{ secrets.SESSIONTIME}}
     - run: npm ci
     - run: pm2 restart dfbapi
