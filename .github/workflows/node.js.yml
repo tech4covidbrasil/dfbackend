@@ -22,4 +22,4 @@ jobs:
         cache: 'npm'
     - run: pwd
     - run: ls -la
-    - run: ci
+    - run: npm ci
