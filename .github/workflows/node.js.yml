@@ -8,7 +8,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    timeout-minutes: 4
     strategy:
       matrix:
         node-version: [16.x]
@@ -24,31 +24,7 @@ jobs:
       run: npm install
 
     - name: Construindo Projeto (Build)
-      run: npm run build
-
-    - name: Gerando Artefato (Dist)
-      uses: actions/upload-artifact@v3
-      with:
-        name: dist
-        path: dist
-
-  deploy:
-    needs: build
-    runs-on: self-hosted
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-    - name: Download Artefato
-      uses: actions/download-artifact@v3
-      with:
-        name: dist
-        path: dist
-
-    - name: Variaveis de Ambiente
-      run: |
-        export PORT=${{ secrets.PORT }}
+    - run: npm run build
     - run: npm ci
-    - run: pm2 restart dfbapi
+      
+    
