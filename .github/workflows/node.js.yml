@@ -52,4 +52,4 @@ jobs:
         path: dist
 
     - run: npm ci
-    - run: pm2 restart dfbapi
+    - run: pm2 restart dfbnodeapi
