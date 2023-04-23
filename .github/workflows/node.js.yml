@@ -23,3 +23,4 @@ jobs:
     - run: pwd
     - run: ls -la
     - run: npm ci
+    - run: npm build
