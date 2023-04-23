@@ -6,13 +6,12 @@ on:
 
 jobs:
   build:
-    timeout-minutes: 2
+
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v3
@@ -36,7 +35,6 @@ jobs:
   deploy:
     needs: build
     runs-on: self-hosted
-    timeout-minutes: 2
 
     strategy:
       matrix:
@@ -49,5 +47,8 @@ jobs:
         name: dist
         path: dist
 
-    - name: Finalizando
+    - name: Variaveis de Ambiente
+      run: |
+        export PORT=${{ secrets.PORT }}
     - run: npm ci
+    - run: pm2 restart dfbapi
