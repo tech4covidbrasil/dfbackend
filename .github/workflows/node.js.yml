@@ -1,17 +1,21 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
 name: Node.js CI
 
 on:
   push:
     branches: [ "main" ]
-    
+
 jobs:
   build:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v3
@@ -20,7 +24,34 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: pwd
-    - run: ls -la
+    - name: Instalando Dependencias
+      run: npm install
+
+    - name: Construindo Projeto (Build)
+      run: npm run build
+
+    - name: Gerando Artefato (Dist)
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+    - name: Download Artefato
+      uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist
+
+    - name: Variaveis de Ambiente
+      run: |
+        export PORT=${{ secrets.PORT }}
     - run: npm ci
-    - run: npm run build
