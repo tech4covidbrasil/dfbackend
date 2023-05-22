@@ -1333,7 +1333,7 @@
 				}
 			}
 		},
-		"/landingpage":{
+		"/landing-page":{
 			"post": {
 				"summary": "Cadastra um novo lead na plataforma",
 				"description": "O usuário não deve conseguir se cadastar mais de uma vez com o mesmo nome e email.",
