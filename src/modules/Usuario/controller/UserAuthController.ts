@@ -17,7 +17,7 @@ class UserAuthController {
 			SuccessResponse(
 				response,
 				200,
-				`Seja Bem Vindo: ${sessionLogin.usuario.nome} - Seu token de acesso: ${sessionLogin.token}`,
+				JSON.stringify({mensagem: `Seja Bem Vindo: ${sessionLogin.usuario.nome}`, token: sessionLogin.token}),
 			);
 		} catch (error: any) {
 			ErrorResponse(response, 500, 'Ocorreu um erro', error.message);
